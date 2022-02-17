@@ -1,3 +1,3 @@
 # sportcalculator
 
-[theme](https://github.com/mui/material-ui/tree/master/examples/nextjs))
+[theme](https://github.com/mui/material-ui/tree/master/examples/nextjs)
