@@ -60,7 +60,19 @@ export default function DailyTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <DailyTabItem item={"Breakfast"} />
+        <DailyTabItem
+          item={{
+            mealName: "Breakfast",
+            foods: [
+              {
+                name: "nutella",
+                quantity: 40,
+                calories: 500,
+                details: { protein: 1, carbohydrate: 20, lipid: 78 },
+              },
+            ],
+          }}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <DailyTabItem item={"Lunch"} />
