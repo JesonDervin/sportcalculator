@@ -1,8 +1,11 @@
 import { List, ListItemButton, ListItemText, Collapse } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import * as React from "react";
-export default function DailyTabItem({ item }) {
-  const [open, setOpen] = React.useState(0);
+import Meal from "../../Models/Meal";
+import Food from "../../Models/Food";
+import NutritionalDetails from "../../Models/NutritionalDetails";
+export default function DailyTabItem(item: Meal) {
+  const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
     setOpen(!open);
@@ -11,7 +14,7 @@ export default function DailyTabItem({ item }) {
   return (
     <div>
       <List>
-        {item.foods.map((value, index) => {
+        {item.foods.map((value: Food, index) => {
           return (
             <div key={index}>
               <ListItemButton onClick={handleClick}>
@@ -19,7 +22,7 @@ export default function DailyTabItem({ item }) {
                   primary={formatFood(
                     value.name,
                     value.quantity,
-                    value.calories
+                    value.nutritionalValue.Calories
                   )}
                 />
                 {open ? <ExpandLess /> : <ExpandMore />}
@@ -27,7 +30,9 @@ export default function DailyTabItem({ item }) {
               <Collapse in={open} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                   <ListItemButton sx={{ pl: 4 }}>
-                    <ListItemText primary={formatFoodDetails(value.details)} />
+                    <ListItemText
+                      primary={formatFoodDetails(value.nutritionalValue)}
+                    />
                   </ListItemButton>
                 </List>
               </Collapse>
@@ -39,15 +44,14 @@ export default function DailyTabItem({ item }) {
   );
 }
 
-function formatFood(name, quantity, calories) {
+function formatFood(name: string, quantity: number, calories: number) {
   return `${name} - ${quantity}g ${calories}kcal`;
 }
 
-function formatFoodDetails(detail) {
+function formatFoodDetails(details: NutritionalDetails) {
   let output = "";
-  for (var property in detail) {
-    output += `${property}: ${detail[property]}g `;
+  for (const property in details) {
+    output += `${property}: ${details[property]}g `;
   }
-  console.log("outpyt", output);
   return output;
 }
