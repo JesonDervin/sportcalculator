@@ -4,7 +4,7 @@ import * as React from "react";
 import Meal from "../../Models/Meal";
 import Food from "../../Models/Food";
 import NutritionalDetails from "../../Models/NutritionalDetails";
-export default function DailyTabItem(item: Meal) {
+export default function DailyTabItem(props: { item: Meal }) {
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -14,7 +14,7 @@ export default function DailyTabItem(item: Meal) {
   return (
     <div>
       <List>
-        {item.foods.map((value: Food, index) => {
+        {props.item.foods.map((value: Food, index) => {
           return (
             <div key={index}>
               <ListItemButton onClick={handleClick}>
@@ -50,8 +50,9 @@ function formatFood(name: string, quantity: number, calories: number) {
 
 function formatFoodDetails(details: NutritionalDetails) {
   let output = "";
-  for (const property in details) {
-    output += `${property}: ${details[property]}g `;
+  let k: keyof typeof details;
+  for (k in details) {
+    output += `${k}: ${details[k]}g `;
   }
   return output;
 }
