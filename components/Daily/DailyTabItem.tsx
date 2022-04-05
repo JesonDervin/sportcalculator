@@ -4,6 +4,8 @@ import * as React from "react";
 import Meal from "../../Models/Meal";
 import Food from "../../Models/Food";
 import NutritionalDetails from "../../Models/NutritionalDetails";
+import AddIngredientDialog from "../Food/AddIngredientDialog";
+
 export default function DailyTabItem(props: { item: Meal }) {
   const [open, setOpen] = React.useState(false);
 
@@ -39,6 +41,7 @@ export default function DailyTabItem(props: { item: Meal }) {
             </div>
           );
         })}
+        <AddIngredientDialog />
       </List>
     </div>
   );
