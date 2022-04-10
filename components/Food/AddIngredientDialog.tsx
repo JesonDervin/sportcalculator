@@ -30,12 +30,12 @@ export default function FoodDialog() {
     handleClose();
   };
 
-  const handleNameChange = (
+  const handleForm = (
     e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
     setCurrentIngredient({
       ...currentIngredient,
-      name: e.currentTarget.value,
+      [e.currentTarget.id]: e.currentTarget.value,
     });
   };
 
@@ -56,8 +56,9 @@ export default function FoodDialog() {
           <DialogContent>
             <TextField
               label="name"
+              id="name"
               value={currentIngredient.name}
-              onChange={handleNameChange}
+              onChange={handleForm}
             />
           </DialogContent>
           <DialogActions>
