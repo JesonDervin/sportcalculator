@@ -6,6 +6,10 @@ import Food from "../../Models/Food";
 import NutritionalDetails from "../../Models/NutritionalDetails";
 import AddIngredientDialog from "../Food/AddIngredientDialog";
 
+const getCalories = (protein: number, carbohydrate: number, lipid: number) => {
+  return protein * 4 + carbohydrate * 4 + lipid * 9;
+};
+
 export default function DailyTabItem(props: { item: Meal }) {
   const [open, setOpen] = React.useState(false);
 
@@ -24,7 +28,11 @@ export default function DailyTabItem(props: { item: Meal }) {
                   primary={formatFood(
                     value.name,
                     value.quantity,
-                    value.nutritionalValue.Calories
+                    getCalories(
+                      value.nutritionalDetails.protein,
+                      value.nutritionalDetails.carbohydrate,
+                      value.nutritionalDetails.lipid
+                    )
                   )}
                 />
                 {open ? <ExpandLess /> : <ExpandMore />}
@@ -33,7 +41,7 @@ export default function DailyTabItem(props: { item: Meal }) {
                 <List component="div" disablePadding>
                   <ListItemButton sx={{ pl: 4 }}>
                     <ListItemText
-                      primary={formatFoodDetails(value.nutritionalValue)}
+                      primary={formatFoodDetails(value.nutritionalDetails)}
                     />
                   </ListItemButton>
                 </List>
