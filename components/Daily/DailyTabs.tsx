@@ -5,8 +5,6 @@ import Box from "@mui/material/Box";
 import DailyTabItem from "./DailyTabItem";
 import Meal from "../../Models/Meal";
 import Food from "../../Models/Food";
-import NutritionalDetails from "../../Models/NutritionalDetails";
-import { Typography } from "@mui/material";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -50,19 +48,15 @@ export default function DailyTabs() {
   };
 
   const exempleBreakFast = new Meal("BreakFast", [
-    new Food("nutella", 40, new NutritionalDetails(1, 20, 78)),
+    new Food("nutella", 40, 1, 20, 78),
   ]);
 
-  const exempleLunch = new Meal("Lunch", [
-    new Food("tapenade", 50, new NutritionalDetails(5, 50, 50)),
-  ]);
+  const exempleLunch = new Meal("Lunch", [new Food("tapenade", 50, 5, 50, 50)]);
 
-  const exempleSnack = new Meal("Snack", [
-    new Food("skyr", 60, new NutritionalDetails(60, 3, 78)),
-  ]);
+  const exempleSnack = new Meal("Snack", [new Food("skyr", 60, 60, 3, 78)]);
 
   const exempleDinner = new Meal("Dinner", [
-    new Food("houmouss", 70, new NutritionalDetails(70, 4, 87)),
+    new Food("houmouss", 70, 70, 4, 87),
   ]);
 
   return (

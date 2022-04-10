@@ -3,7 +3,6 @@ import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import * as React from "react";
 import Meal from "../../Models/Meal";
 import Food from "../../Models/Food";
-import NutritionalDetails from "../../Models/NutritionalDetails";
 import AddIngredientDialog from "../Food/AddIngredientDialog";
 
 const getCalories = (protein: number, carbohydrate: number, lipid: number) => {
@@ -17,10 +16,18 @@ export default function DailyTabItem(props: { item: Meal }) {
     setOpen(!open);
   };
 
+  const [currentFoods, setCurrentFoods] = React.useState<Food[]>(
+    props.item.foods
+  );
+
+  const handleAddFood = (newFood: Food) => {
+    setCurrentFoods((oldFoods) => [...oldFoods, newFood]);
+  };
+
   return (
     <div>
       <List>
-        {props.item.foods.map((value: Food, index) => {
+        {currentFoods.map((value: Food, index) => {
           return (
             <div key={index}>
               <ListItemButton onClick={handleClick}>
@@ -28,11 +35,7 @@ export default function DailyTabItem(props: { item: Meal }) {
                   primary={formatFood(
                     value.name,
                     value.quantity,
-                    getCalories(
-                      value.nutritionalDetails.protein,
-                      value.nutritionalDetails.carbohydrate,
-                      value.nutritionalDetails.lipid
-                    )
+                    getCalories(value.protein, value.carbohydrate, value.lipid)
                   )}
                 />
                 {open ? <ExpandLess /> : <ExpandMore />}
@@ -41,7 +44,11 @@ export default function DailyTabItem(props: { item: Meal }) {
                 <List component="div" disablePadding>
                   <ListItemButton sx={{ pl: 4 }}>
                     <ListItemText
-                      primary={formatFoodDetails(value.nutritionalDetails)}
+                      primary={formatFoodDetails(
+                        value.protein,
+                        value.carbohydrate,
+                        value.lipid
+                      )}
                     />
                   </ListItemButton>
                 </List>
@@ -49,7 +56,7 @@ export default function DailyTabItem(props: { item: Meal }) {
             </div>
           );
         })}
-        <AddIngredientDialog />
+        <AddIngredientDialog onAddFood={handleAddFood} />
       </List>
     </div>
   );
@@ -59,11 +66,14 @@ function formatFood(name: string, quantity: number, calories: number) {
   return `${name} - ${quantity}g ${calories}kcal`;
 }
 
-function formatFoodDetails(details: NutritionalDetails) {
+function formatFoodDetails(
+  protein: number,
+  carbohydrate: number,
+  lipid: number
+) {
   let output = "";
-  let k: keyof typeof details;
-  for (k in details) {
-    output += `${k}: ${details[k]}g `;
-  }
+  output += `protein: ${protein}g`;
+  output += `carbohydrate: ${carbohydrate}g`;
+  output += `lipid: ${lipid}g`;
   return output;
 }

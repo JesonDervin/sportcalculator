@@ -12,13 +12,15 @@ import {
   TextField,
 } from "@mui/material";
 import Food from "../../Models/Food";
-import NutritionalDetails from "../../Models/NutritionalDetails";
 
-export default function FoodDialog() {
+interface FoodDialogProps {
+  onAddFood: (newFood: Food) => void;
+}
+
+export default function FoodDialog(props: FoodDialogProps) {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setCurrentIngredient(new Food());
-    setCurrentFoodDetails(new NutritionalDetails());
     setOpen(true);
   };
 
@@ -31,13 +33,8 @@ export default function FoodDialog() {
   );
   const saveIngredient = (e: React.FormEvent) => {
     e.preventDefault();
-    const savedIngredient = new Food(
-      currentIngredient.name,
-      currentIngredient.quantity,
-      currentFoodDetails
-    );
-    console.log("saved", savedIngredient);
     handleClose();
+    props.onAddFood(currentIngredient);
   };
 
   const handleFood = (
@@ -49,17 +46,6 @@ export default function FoodDialog() {
     });
   };
 
-  const [currentFoodDetails, setCurrentFoodDetails] =
-    React.useState<NutritionalDetails>(new NutritionalDetails());
-
-  const handleFoodDetails = (
-    e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void => {
-    setCurrentFoodDetails({
-      ...currentFoodDetails,
-      [e.currentTarget.name]: e.currentTarget.value,
-    });
-  };
   return (
     <div>
       <IconButton
@@ -113,8 +99,8 @@ export default function FoodDialog() {
                     name="protein"
                     label="Protein"
                     type="number"
-                    value={currentFoodDetails.protein}
-                    onChange={handleFoodDetails}
+                    value={currentIngredient.protein}
+                    onChange={handleFood}
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -130,8 +116,8 @@ export default function FoodDialog() {
                     name="carbohydrate"
                     label="Carbohydrate"
                     type="number"
-                    value={currentFoodDetails.carbohydrate}
-                    onChange={handleFoodDetails}
+                    value={currentIngredient.carbohydrate}
+                    onChange={handleFood}
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -147,8 +133,8 @@ export default function FoodDialog() {
                     name="lipid"
                     label="Lipid"
                     type="number"
-                    value={currentFoodDetails.lipid}
-                    onChange={handleFoodDetails}
+                    value={currentIngredient.lipid}
+                    onChange={handleFood}
                     InputLabelProps={{
                       shrink: true,
                     }}
