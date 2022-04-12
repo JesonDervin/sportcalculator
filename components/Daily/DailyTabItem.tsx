@@ -4,6 +4,7 @@ import * as React from "react";
 import Meal from "../../Models/Meal";
 import Food from "../../Models/Food";
 import AddIngredientDialog from "../Food/AddIngredientDialog";
+import { FoodsReducer } from "../../state/Food/FoodListState";
 
 const getCalories = (protein: number, carbohydrate: number, lipid: number) => {
   return protein * 4 + carbohydrate * 4 + lipid * 9;
@@ -15,19 +16,13 @@ export default function DailyTabItem(props: { item: Meal }) {
   const handleClick = () => {
     setOpen(!open);
   };
-
-  const [currentFoods, setCurrentFoods] = React.useState<Food[]>(
-    props.item.foods
-  );
-
-  const handleAddFood = (newFood: Food) => {
-    setCurrentFoods((oldFoods) => [...oldFoods, newFood]);
-  };
-
+  const [state, dispatch] = React.useReducer(FoodsReducer, [
+    ...props.item.foods,
+  ]);
   return (
     <div>
       <List>
-        {currentFoods.map((value: Food, index) => {
+        {state.map((value: Food, index) => {
           return (
             <div key={index}>
               <ListItemButton onClick={handleClick}>
@@ -56,7 +51,7 @@ export default function DailyTabItem(props: { item: Meal }) {
             </div>
           );
         })}
-        <AddIngredientDialog onAddFood={handleAddFood} />
+        <AddIngredientDialog dispatch={dispatch} />
       </List>
     </div>
   );

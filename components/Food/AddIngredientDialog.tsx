@@ -12,9 +12,10 @@ import {
   TextField,
 } from "@mui/material";
 import Food from "../../Models/Food";
+import { FoodAction, FoodActionType } from "../../state/Food/FoodListState";
 
 interface FoodDialogProps {
-  onAddFood: (newFood: Food) => void;
+  dispatch: React.Dispatch<FoodAction>;
 }
 
 export default function FoodDialog(props: FoodDialogProps) {
@@ -34,7 +35,11 @@ export default function FoodDialog(props: FoodDialogProps) {
   const saveIngredient = (e: React.FormEvent) => {
     e.preventDefault();
     handleClose();
-    props.onAddFood(currentIngredient);
+    props.dispatch({
+      type: FoodActionType.ADD,
+      food: currentIngredient,
+      index: 0,
+    });
   };
 
   const handleFood = (
