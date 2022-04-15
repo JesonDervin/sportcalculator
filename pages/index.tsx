@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Link from "../src/Link";
 import ProTip from "../src/ProTip";
 import Copyright from "../src/Copyright";
+import Daily from "./Daily";
 
 const Home: NextPage = () => {
   return (
@@ -18,11 +19,8 @@ const Home: NextPage = () => {
           alignItems: "center",
         }}
       >
-        <Link href="/Daily" color="secondary">
-          Go to the daily
-        </Link>
+        <Daily />
         <ProTip />
-        <Copyright />
       </Box>
     </Container>
   );
