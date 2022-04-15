@@ -1,28 +1,41 @@
 import { List, ListItemButton, ListItemText, Collapse } from "@mui/material";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { ExpandLess, ExpandMore, Delete } from "@mui/icons-material";
 import * as React from "react";
 import Meal from "../../Models/Meal";
 import Food from "../../Models/Food";
 import AddIngredientDialog from "../Food/AddIngredientDialog";
-import { FoodsReducer } from "../../state/Food/FoodListState";
+import { FoodActionType, FoodsReducer } from "../../state/Food/FoodListState";
+import DailyFoodDetails from "./DailyFoodDetails";
 
 const getCalories = (protein: number, carbohydrate: number, lipid: number) => {
   return protein * 4 + carbohydrate * 4 + lipid * 9;
 };
 
 export default function DailyTabItem(props: { item: Meal }) {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
   const [state, dispatch] = React.useReducer(FoodsReducer, [
     ...props.item.foods,
   ]);
+
+  const handleDelete = (index: number) => {
+    dispatch({ type: FoodActionType.REMOVE, index: index });
+  };
+
+  const handleAdd = (newFood: Food) => {
+    dispatch({
+      type: FoodActionType.ADD,
+      food: newFood,
+    });
+  };
+
+  const [open, setOpen] = React.useState(false);
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
   return (
     <div>
       <List>
-        {state.map((value: Food, index) => {
+        {state.map((value: Food, index: number) => {
           return (
             <div key={index}>
               <ListItemButton onClick={handleClick}>
@@ -36,22 +49,17 @@ export default function DailyTabItem(props: { item: Meal }) {
                 {open ? <ExpandLess /> : <ExpandMore />}
               </ListItemButton>
               <Collapse in={open} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  <ListItemButton sx={{ pl: 4 }}>
-                    <ListItemText
-                      primary={formatFoodDetails(
-                        value.protein,
-                        value.carbohydrate,
-                        value.lipid
-                      )}
-                    />
-                  </ListItemButton>
-                </List>
+                <DailyFoodDetails
+                  protein={value.protein}
+                  carbohydrate={value.carbohydrate}
+                  lipid={value.lipid}
+                  deleteMeal={() => handleDelete(index)}
+                />
               </Collapse>
             </div>
           );
         })}
-        <AddIngredientDialog dispatch={dispatch} />
+        <AddIngredientDialog handleAdd={handleAdd} />
       </List>
     </div>
   );
@@ -59,16 +67,4 @@ export default function DailyTabItem(props: { item: Meal }) {
 
 function formatFood(name: string, quantity: number, calories: number) {
   return `${name} - ${quantity}g ${calories}kcal`;
-}
-
-function formatFoodDetails(
-  protein: number,
-  carbohydrate: number,
-  lipid: number
-) {
-  let output = "";
-  output += `protein: ${protein}g`;
-  output += `carbohydrate: ${carbohydrate}g`;
-  output += `lipid: ${lipid}g`;
-  return output;
 }

@@ -15,7 +15,7 @@ import Food from "../../Models/Food";
 import { FoodAction, FoodActionType } from "../../state/Food/FoodListState";
 
 interface FoodDialogProps {
-  dispatch: React.Dispatch<FoodAction>;
+  handleAdd: (newFood: Food) => void;
 }
 
 export default function FoodDialog(props: FoodDialogProps) {
@@ -35,11 +35,7 @@ export default function FoodDialog(props: FoodDialogProps) {
   const saveIngredient = (e: React.FormEvent) => {
     e.preventDefault();
     handleClose();
-    props.dispatch({
-      type: FoodActionType.ADD,
-      food: currentIngredient,
-      index: 0,
-    });
+    props.handleAdd(currentIngredient);
   };
 
   const handleFood = (
