@@ -1,5 +1,6 @@
 import Food from "./Food";
+import { MealType } from "./MealType";
 
 export default class Meal {
-  constructor(public name: string = "", public foods: Food[] = []) {}
+  constructor(public type: MealType, public foods: Food[] = []) {}
 }

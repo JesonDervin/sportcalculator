@@ -3,9 +3,10 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import DailyTabItem from "./DailyTabItem";
-import Meal from "../../Models/Meal";
-import Food from "../../Models/Food";
 
+import DailyTotal from "./DailyTotal";
+import Meal from "../../Models/Meal";
+import { MealType } from "../../Models/MealType";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -39,25 +40,22 @@ function a11yProps(index: number) {
   };
 }
 
-// Todo having Meal list in props
-export default function DailyTabs() {
+interface DailyTabsProps {
+  meals: Meal[];
+}
+
+export default function DailyTabs(props: DailyTabsProps) {
+  const { meals } = props;
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  const exempleBreakFast = new Meal("BreakFast", [
-    new Food("nutella", 40, 1, 20, 78),
-  ]);
-
-  const exempleLunch = new Meal("Lunch", [new Food("tapenade", 50, 5, 50, 50)]);
-
-  const exempleSnack = new Meal("Snack", [new Food("skyr", 60, 60, 3, 78)]);
-
-  const exempleDinner = new Meal("Dinner", [
-    new Food("houmouss", 70, 70, 4, 87),
-  ]);
+  const breakFast = meals.filter((f) => f.type === MealType.Breakfast)[0];
+  const lunch = meals.filter((f) => f.type === MealType.Lunch)[0];
+  const snack = meals.filter((f) => f.type === MealType.Snack)[0];
+  const dinner = meals.filter((f) => f.type === MealType.Dinner)[0];
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -78,19 +76,19 @@ export default function DailyTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <DailyTabItem item={exempleBreakFast} />
+        <DailyTabItem item={breakFast} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <DailyTabItem item={exempleLunch} />
+        <DailyTabItem item={lunch} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <DailyTabItem item={exempleSnack} />
+        <DailyTabItem item={snack} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <DailyTabItem item={exempleDinner} />
+        <DailyTabItem item={dinner} />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        Total
+        <DailyTotal meals={meals} />
       </TabPanel>
     </Box>
   );

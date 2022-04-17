@@ -19,6 +19,7 @@ interface FoodDialogProps {
 }
 
 export default function FoodDialog(props: FoodDialogProps) {
+  const { handleAdd } = props;
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setCurrentIngredient(new Food());
@@ -35,7 +36,7 @@ export default function FoodDialog(props: FoodDialogProps) {
   const saveIngredient = (e: React.FormEvent) => {
     e.preventDefault();
     handleClose();
-    props.handleAdd(currentIngredient);
+    handleAdd(currentIngredient);
   };
 
   const handleFood = (

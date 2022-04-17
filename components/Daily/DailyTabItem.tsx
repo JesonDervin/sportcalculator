@@ -6,10 +6,7 @@ import Food from "../../Models/Food";
 import AddIngredientDialog from "../Food/AddIngredientDialog";
 import { FoodActionType, FoodsReducer } from "../../state/Food/FoodListState";
 import DailyFoodDetails from "./DailyFoodDetails";
-
-const getCalories = (protein: number, carbohydrate: number, lipid: number) => {
-  return protein * 4 + carbohydrate * 4 + lipid * 9;
-};
+import FoodHelper from "../../Models/Helpers/FoodHelper";
 
 export default function DailyTabItem(props: { item: Meal }) {
   const [state, dispatch] = React.useReducer(FoodsReducer, [
@@ -43,7 +40,11 @@ export default function DailyTabItem(props: { item: Meal }) {
                   primary={formatFood(
                     value.name,
                     value.quantity,
-                    getCalories(value.protein, value.carbohydrate, value.lipid)
+                    FoodHelper.calculateCalories(
+                      value.protein,
+                      value.carbohydrate,
+                      value.lipid
+                    )
                   )}
                 />
                 {open ? <ExpandLess /> : <ExpandMore />}
