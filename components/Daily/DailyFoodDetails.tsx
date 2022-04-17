@@ -10,17 +10,16 @@ interface DailyFoodDetailsProps {
 }
 
 export default function DailyFoodDetails(props: DailyFoodDetailsProps) {
+  const { protein, carbohydrate, lipid, deleteMeal } = props;
   const handleDelete = () => {
-    props.deleteMeal();
+    deleteMeal();
   };
   return (
     <List component="div" disablePadding>
       <ListItemButton sx={{ pl: 4 }}>
-        <ListItemText primary={<span>protein : {props.protein}g</span>} />
-        <ListItemText
-          primary={<span>carbohydrate : {props.carbohydrate}g</span>}
-        />
-        <ListItemText primary={<span>lipid : {props.lipid}g</span>} />
+        <ListItemText primary={<span>protein : {protein}g</span>} />
+        <ListItemText primary={<span>carbohydrate : {carbohydrate}g</span>} />
+        <ListItemText primary={<span>lipid : {lipid}g</span>} />
         <IconButton edge="end" onClick={handleDelete}>
           <Delete aria-label="delete" color="error" />
         </IconButton>
