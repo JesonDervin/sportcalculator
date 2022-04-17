@@ -1,7 +1,9 @@
 import { Divider, Stack } from "@mui/material";
 import * as React from "react";
 import Meal from "../../Models/Meal";
+import TotalMeal from "../../Models/TotalMeal";
 import MealTable from "../Meal/MealTable";
+import TotalMealTable from "../Meal/TotalMealTable";
 
 interface DailyTotalProps {
   meals: Meal[];
@@ -9,11 +11,10 @@ interface DailyTotalProps {
 
 export default function DailyTotal(props: DailyTotalProps) {
   const { meals } = props;
+  const totalMeal = new TotalMeal(meals);
   return (
     <Stack spacing={2} divider={<Divider orientation="horizontal" flexItem />}>
-      {meals.map((meal) => (
-        <MealTable meal={meal} />
-      ))}
+      <TotalMealTable totalMeal={totalMeal} />
     </Stack>
   );
 }

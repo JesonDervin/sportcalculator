@@ -3,4 +3,5 @@ export enum MealType {
   Lunch = "Lunch",
   Snack = "Snack",
   Dinner = "Dinner",
+  Total = "Total",
 }

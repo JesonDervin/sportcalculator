@@ -46,16 +46,19 @@ interface DailyTabsProps {
 
 export default function DailyTabs(props: DailyTabsProps) {
   const { meals } = props;
+  const [currentMeals] = React.useState(meals);
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  const breakFast = meals.filter((f) => f.type === MealType.Breakfast)[0];
-  const lunch = meals.filter((f) => f.type === MealType.Lunch)[0];
-  const snack = meals.filter((f) => f.type === MealType.Snack)[0];
-  const dinner = meals.filter((f) => f.type === MealType.Dinner)[0];
+  const breakFast = currentMeals.filter(
+    (f) => f.type === MealType.Breakfast
+  )[0];
+  const lunch = currentMeals.filter((f) => f.type === MealType.Lunch)[0];
+  const snack = currentMeals.filter((f) => f.type === MealType.Snack)[0];
+  const dinner = currentMeals.filter((f) => f.type === MealType.Dinner)[0];
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -88,7 +91,7 @@ export default function DailyTabs(props: DailyTabsProps) {
         <DailyTabItem item={dinner} />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <DailyTotal meals={meals} />
+        <DailyTotal meals={currentMeals} />
       </TabPanel>
     </Box>
   );

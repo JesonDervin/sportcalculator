@@ -1,4 +1,5 @@
 import {
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -7,25 +8,21 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import Meal from "../../Models/Meal";
 import FoodHelper from "../../Models/Helpers/FoodHelper";
 import Food from "../../Models/Food";
+import { Delete } from "@mui/icons-material";
 
 interface MealTableProps {
-  meal: Meal;
+  mealFood: Food[];
+  deleteFood: (index: number) => void;
 }
 
 export default function MealTable(props: MealTableProps) {
-  const { meal } = props;
+  const { mealFood, deleteFood } = props;
   return (
     <TableContainer component={Paper}>
-      <Table size="small" aria-label={meal.type}>
+      <Table size="small">
         <TableHead>
-          <TableRow>
-            <TableCell align="center" colSpan={12}>
-              {meal.type}
-            </TableCell>
-          </TableRow>
           <TableRow>
             <TableCell>Ingredient</TableCell>
             <TableCell align="right">Quantity (g)</TableCell>
@@ -33,17 +30,16 @@ export default function MealTable(props: MealTableProps) {
             <TableCell align="right">Carbs&nbsp;(g)</TableCell>
             <TableCell align="right">Fat&nbsp;(g)</TableCell>
             <TableCell align="right">Calories</TableCell>
+            <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {meal.foods.map((food: Food) => (
+          {mealFood.map((food: Food, index: number) => (
             <TableRow
               key={food.name}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {food.name}
-              </TableCell>
+              <TableCell scope="row">{food.name}</TableCell>
               <TableCell align="right">{food.quantity}</TableCell>
               <TableCell align="right">{food.protein}</TableCell>
               <TableCell align="right">{food.carbohydrate}</TableCell>
@@ -54,6 +50,11 @@ export default function MealTable(props: MealTableProps) {
                   food.carbohydrate,
                   food.lipid
                 )}
+              </TableCell>
+              <TableCell>
+                <IconButton onClick={() => deleteFood(index)}>
+                  <Delete aria-label="delete" color="error" />
+                </IconButton>
               </TableCell>
             </TableRow>
           ))}
