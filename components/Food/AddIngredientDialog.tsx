@@ -12,6 +12,7 @@ import {
   TextField,
 } from "@mui/material";
 import Food from "../../Models/Food";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 interface FoodDialogProps {
   handleAdd: (newFood: Food) => void;
@@ -21,19 +22,25 @@ export default function FoodDialog(props: FoodDialogProps) {
   const { handleAdd } = props;
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
+    reset();
     setCurrentIngredient(new Food());
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
 
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<Food>({ criteriaMode: "all" });
+
   const [currentIngredient, setCurrentIngredient] = React.useState<Food>(
     new Food()
   );
-  const saveIngredient = (e: React.FormEvent) => {
-    e.preventDefault();
+  const saveIngredient: SubmitHandler<Food> = (data: Food) => {
     handleClose();
     handleAdd(currentIngredient);
   };
@@ -46,6 +53,8 @@ export default function FoodDialog(props: FoodDialogProps) {
       [e.currentTarget.name]: e.currentTarget.value,
     });
   };
+
+  const numberConstraints = { required: true, onChange: handleFood, min: 0 };
 
   return (
     <div>
@@ -60,26 +69,30 @@ export default function FoodDialog(props: FoodDialogProps) {
       </IconButton>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add an Ingredient</DialogTitle>
-        <form onSubmit={(e) => saveIngredient(e)}>
+        <form onSubmit={handleSubmit(saveIngredient)} noValidate>
           <DialogContent>
             <Grid container direction="column">
               <Grid container spacing={2}>
                 <Grid item xs>
                   <TextField
+                    error={errors.name ? true : false}
+                    helperText={errors.name ? "required" : ""}
                     label="Name"
-                    name="name"
                     type="search"
                     value={currentIngredient.name}
-                    onChange={handleFood}
+                    {...register("name", {
+                      required: true,
+                      onChange: handleFood,
+                    })}
                   />
                 </Grid>
                 <Grid item xs>
                   <TextField
-                    name="quantity"
+                    error={errors.quantity ? true : false}
+                    helperText={errors.quantity ? "Invalid" : ""}
                     label="Quantity"
-                    type="number"
                     value={currentIngredient.quantity}
-                    onChange={handleFood}
+                    type="number"
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -88,6 +101,11 @@ export default function FoodDialog(props: FoodDialogProps) {
                         <InputAdornment position="end">g</InputAdornment>
                       ),
                     }}
+                    {...register("quantity", {
+                      required: true,
+                      onChange: handleFood,
+                      min: 0,
+                    })}
                   />
                 </Grid>
               </Grid>
@@ -97,11 +115,11 @@ export default function FoodDialog(props: FoodDialogProps) {
                 </Grid>
                 <Grid item xs={4}>
                   <TextField
-                    name="protein"
+                    error={errors.protein ? true : false}
+                    helperText={errors.protein ? "Invalid" : ""}
                     label="Protein"
                     type="number"
                     value={currentIngredient.protein}
-                    onChange={handleFood}
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -110,15 +128,16 @@ export default function FoodDialog(props: FoodDialogProps) {
                         <InputAdornment position="end">g</InputAdornment>
                       ),
                     }}
+                    {...register("protein", numberConstraints)}
                   />
                 </Grid>
                 <Grid item xs={4}>
                   <TextField
-                    name="carbohydrate"
+                    error={errors.carbohydrate ? true : false}
+                    helperText={errors.carbohydrate ? "Invalid" : ""}
                     label="Carbohydrate"
                     type="number"
                     value={currentIngredient.carbohydrate}
-                    onChange={handleFood}
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -127,15 +146,16 @@ export default function FoodDialog(props: FoodDialogProps) {
                         <InputAdornment position="end">g</InputAdornment>
                       ),
                     }}
+                    {...register("carbohydrate", numberConstraints)}
                   />
                 </Grid>
                 <Grid item xs={4}>
                   <TextField
-                    name="lipid"
+                    error={errors.lipid ? true : false}
+                    helperText={errors.lipid ? "Invalid" : ""}
                     label="Lipid"
                     type="number"
                     value={currentIngredient.lipid}
-                    onChange={handleFood}
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -144,6 +164,7 @@ export default function FoodDialog(props: FoodDialogProps) {
                         <InputAdornment position="end">g</InputAdornment>
                       ),
                     }}
+                    {...register("lipid", numberConstraints)}
                   />
                 </Grid>
               </Grid>

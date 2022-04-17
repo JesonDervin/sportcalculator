@@ -19,7 +19,8 @@
     "next": "latest",
     "prop-types": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-hook-form": "^7.30.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.19",
