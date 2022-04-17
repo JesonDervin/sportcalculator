@@ -12,7 +12,6 @@ import {
   TextField,
 } from "@mui/material";
 import Food from "../../Models/Food";
-import { FoodAction, FoodActionType } from "../../state/Food/FoodListState";
 
 interface FoodDialogProps {
   handleAdd: (newFood: Food) => void;

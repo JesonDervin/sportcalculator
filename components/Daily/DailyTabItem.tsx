@@ -2,28 +2,29 @@ import * as React from "react";
 import Meal from "../../Models/Meal";
 import Food from "../../Models/Food";
 import AddIngredientDialog from "../Food/AddIngredientDialog";
-import { FoodActionType, FoodsReducer } from "../../state/Food/FoodListState";
 import MealTable from "../Meal/MealTable";
+import { MealType } from "../../Models/MealType";
 
-export default function DailyTabItem(props: { item: Meal }) {
-  const { item: meal } = props;
+interface DailyTabItemProps {
+  meal: Meal;
+  deleteFood: (mealType: MealType, foodIndex: number) => void;
+  addFood: (mealType: MealType, food: Food) => void;
+}
 
-  const [state, dispatch] = React.useReducer(FoodsReducer, [...meal.foods]);
+export default function DailyTabItem(props: DailyTabItemProps) {
+  const { meal, deleteFood, addFood } = props;
 
   const handleDelete = (index: number) => {
-    dispatch({ type: FoodActionType.REMOVE, index: index });
+    deleteFood(meal.type, index);
   };
 
   const handleAdd = (newFood: Food) => {
-    dispatch({
-      type: FoodActionType.ADD,
-      food: newFood,
-    });
+    addFood(meal.type, newFood);
   };
 
   return (
     <div>
-      <MealTable mealFood={state} deleteFood={handleDelete} />
+      <MealTable mealFood={meal.foods} deleteFood={handleDelete} />
       <AddIngredientDialog handleAdd={handleAdd} />
     </div>
   );

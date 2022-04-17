@@ -7,6 +7,8 @@ import DailyTabItem from "./DailyTabItem";
 import DailyTotal from "./DailyTotal";
 import Meal from "../../Models/Meal";
 import { MealType } from "../../Models/MealType";
+import { MealActionType, MealReducer } from "../../state/Meal/MealState";
+import Food from "../../Models/Food";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -46,9 +48,24 @@ interface DailyTabsProps {
 
 export default function DailyTabs(props: DailyTabsProps) {
   const { meals } = props;
-  const [currentMeals] = React.useState(meals);
-  const [value, setValue] = React.useState(0);
+  const [currentMeals, dispatch] = React.useReducer(MealReducer, [...meals]);
 
+  const handleDeleteFood = (mealType: MealType, foodIndex: number) => {
+    dispatch({
+      type: MealActionType.REMOVEFOOD,
+      mealType: mealType,
+      foodIndex: foodIndex,
+    });
+  };
+  const handleAddFood = (mealType: MealType, food: Food) => {
+    dispatch({
+      type: MealActionType.ADDFOOD,
+      mealType: mealType,
+      food: food,
+    });
+  };
+
+  const [value, setValue] = React.useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -79,16 +96,32 @@ export default function DailyTabs(props: DailyTabsProps) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <DailyTabItem item={breakFast} />
+        <DailyTabItem
+          meal={breakFast}
+          deleteFood={handleDeleteFood}
+          addFood={handleAddFood}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <DailyTabItem item={lunch} />
+        <DailyTabItem
+          meal={lunch}
+          deleteFood={handleDeleteFood}
+          addFood={handleAddFood}
+        />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <DailyTabItem item={snack} />
+        <DailyTabItem
+          meal={snack}
+          deleteFood={handleDeleteFood}
+          addFood={handleAddFood}
+        />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <DailyTabItem item={dinner} />
+        <DailyTabItem
+          meal={dinner}
+          deleteFood={handleDeleteFood}
+          addFood={handleAddFood}
+        />
       </TabPanel>
       <TabPanel value={value} index={4}>
         <DailyTotal meals={currentMeals} />

@@ -10,28 +10,29 @@ export default class TotalMeal {
 
   public get quantity(): number {
     return this.allFoods.reduce(
-      (previous: number, current: Food) => (previous += current.quantity),
+      (previous: number, current: Food) => previous + Number(current.quantity),
       0
     );
   }
 
   public get protein(): number {
     return this.allFoods.reduce(
-      (previous: number, current: Food) => (previous += current.protein),
+      (previous: number, current: Food) => previous + Number(current.protein),
       0
     );
   }
 
   public get carbohydrate(): number {
     return this.allFoods.reduce(
-      (previous: number, current: Food) => (previous += current.carbohydrate),
+      (previous: number, current: Food) =>
+        previous + Number(current.carbohydrate),
       0
     );
   }
 
   public get lipid(): number {
     return this.allFoods.reduce(
-      (previous: number, current: Food) => (previous += current.lipid),
+      (previous: number, current: Food) => previous + Number(current.lipid),
       0
     );
   }

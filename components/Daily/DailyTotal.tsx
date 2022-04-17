@@ -2,7 +2,6 @@ import { Divider, Stack } from "@mui/material";
 import * as React from "react";
 import Meal from "../../Models/Meal";
 import TotalMeal from "../../Models/TotalMeal";
-import MealTable from "../Meal/MealTable";
 import TotalMealTable from "../Meal/TotalMealTable";
 
 interface DailyTotalProps {
