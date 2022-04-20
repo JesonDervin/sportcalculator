@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import Food from "../../Models/Food";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useTranslation } from "next-i18next";
 
 interface FoodDialogProps {
   handleAdd: (newFood: Food) => void;
@@ -56,6 +57,8 @@ export default function FoodDialog(props: FoodDialogProps) {
 
   const numberConstraints = { required: true, onChange: handleFood, min: 0 };
 
+  const { t } = useTranslation();
+
   return (
     <div>
       <IconButton
@@ -68,7 +71,7 @@ export default function FoodDialog(props: FoodDialogProps) {
         <AddIcon />
       </IconButton>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add an Ingredient</DialogTitle>
+        <DialogTitle>{t("ingredient.add")}</DialogTitle>
         <form onSubmit={handleSubmit(saveIngredient)} noValidate>
           <DialogContent>
             <Grid container direction="column">
@@ -76,8 +79,8 @@ export default function FoodDialog(props: FoodDialogProps) {
                 <Grid item xs>
                   <TextField
                     error={errors.name ? true : false}
-                    helperText={errors.name ? "required" : ""}
-                    label="Name"
+                    helperText={errors.name ? t("errors.required") : ""}
+                    label={t("ingredient.name")}
                     type="search"
                     value={currentIngredient.name}
                     {...register("name", {
@@ -89,8 +92,8 @@ export default function FoodDialog(props: FoodDialogProps) {
                 <Grid item xs>
                   <TextField
                     error={errors.quantity ? true : false}
-                    helperText={errors.quantity ? "Invalid" : ""}
-                    label="Quantity"
+                    helperText={errors.quantity ? t("errors.invalid") : ""}
+                    label={t("quantity")}
                     value={currentIngredient.quantity}
                     type="number"
                     InputLabelProps={{
@@ -116,8 +119,8 @@ export default function FoodDialog(props: FoodDialogProps) {
                 <Grid item xs={4}>
                   <TextField
                     error={errors.protein ? true : false}
-                    helperText={errors.protein ? "Invalid" : ""}
-                    label="Protein"
+                    helperText={errors.protein ? t("errors.invalid") : ""}
+                    label={t("protein")}
                     type="number"
                     value={currentIngredient.protein}
                     InputLabelProps={{
@@ -134,8 +137,8 @@ export default function FoodDialog(props: FoodDialogProps) {
                 <Grid item xs={4}>
                   <TextField
                     error={errors.carbohydrate ? true : false}
-                    helperText={errors.carbohydrate ? "Invalid" : ""}
-                    label="Carbohydrate"
+                    helperText={errors.carbohydrate ? t("errors.invalid") : ""}
+                    label={t("carbohydrate")}
                     type="number"
                     value={currentIngredient.carbohydrate}
                     InputLabelProps={{
@@ -152,8 +155,8 @@ export default function FoodDialog(props: FoodDialogProps) {
                 <Grid item xs={4}>
                   <TextField
                     error={errors.lipid ? true : false}
-                    helperText={errors.lipid ? "Invalid" : ""}
-                    label="Lipid"
+                    helperText={errors.lipid ? t("errors.invalid") : ""}
+                    label={t("lipid")}
                     type="number"
                     value={currentIngredient.lipid}
                     InputLabelProps={{
@@ -172,10 +175,10 @@ export default function FoodDialog(props: FoodDialogProps) {
           </DialogContent>
           <DialogActions>
             <Button color="error" onClick={handleClose}>
-              Cancel
+              {t("actions.cancel")}
             </Button>
             <Button color="primary" type="submit">
-              Confirm
+              {t("actions.confirm")}
             </Button>
           </DialogActions>
         </form>
