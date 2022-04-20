@@ -1,0 +1,31 @@
+{
+  "daily": { "title": "Calories journalière" },
+  "meal": {
+    "breakfast": "petit déjeuner",
+    "lunch": "déjeuner",
+    "snack": "gouter",
+    "dinner": "dinner",
+    "total": "total"
+  },
+  "ingredient": {
+    "label": "ingrédient",
+    "add": "Ajouter un Ingrédient",
+    "name": "nom"
+  },
+  "details": "détails",
+  "quantity": "quantité",
+  "protein": "protéine",
+  "carbs": "glucide",
+  "carbohydrate": "glucide",
+  "fat": "lipide",
+  "lipid": "lipide",
+  "calories": "calories",
+  "actions": {
+    "cancel": "annuler",
+    "confirm": "confirmer"
+  },
+  "errors": {
+    "invalid": "invalide",
+    "required": "requis"
+  }
+}

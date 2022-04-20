@@ -5,6 +5,8 @@ import DailyTabs from "../components/Daily/DailyTabs";
 import { MealType } from "../Models/MealType";
 import Meal from "../Models/Meal";
 import Food from "../Models/Food";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 // TODO : having this list retrieved with stored data
 const exampleBreakFast = new Meal(MealType.Breakfast, [
@@ -26,9 +28,10 @@ const exampleDinner = new Meal(MealType.Dinner, [
 const dailyMeal = [exampleBreakFast, exampleLunch, exampleSnack, exampleDinner];
 
 export default function Daily() {
+  const { t } = useTranslation();
   return (
     <Container>
-      <Box>Daily Calories</Box>
+      <Box>{t("daily.title")}</Box>
       <DailyTabs meals={dailyMeal} />
     </Container>
   );
