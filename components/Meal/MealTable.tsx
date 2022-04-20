@@ -11,6 +11,7 @@ import {
 import FoodHelper from "../../Models/Helpers/FoodHelper";
 import Food from "../../Models/Food";
 import { Delete } from "@mui/icons-material";
+import { useTranslation } from "next-i18next";
 
 interface MealTableProps {
   mealFood: Food[];
@@ -19,17 +20,18 @@ interface MealTableProps {
 
 export default function MealTable(props: MealTableProps) {
   const { mealFood, deleteFood } = props;
+  const { t } = useTranslation();
   return (
     <TableContainer component={Paper}>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Ingredient</TableCell>
-            <TableCell align="right">Quantity (g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Calories</TableCell>
+            <TableCell>{t("ingredient.label")}</TableCell>
+            <TableCell align="right">{t("quantity")}&nbsp;(g)</TableCell>
+            <TableCell align="right">{t("protein")}&nbsp;(g)</TableCell>
+            <TableCell align="right">{t("carbs")}&nbsp;(g)</TableCell>
+            <TableCell align="right">{t("fat")}&nbsp;(g)</TableCell>
+            <TableCell align="right">{t("calories")}</TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
         </TableHead>

@@ -4,6 +4,7 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import ProTip from "../src/ProTip";
 import Daily from "./Daily";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Home: NextPage = () => {
   return (
@@ -25,3 +26,12 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+export async function getServerSideProps(props: { locale: string }) {
+  const { locale } = props;
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+      // Will be passed to the page component as props
+    },
+  };
+}

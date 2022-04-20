@@ -1,0 +1,31 @@
+{
+  "daily": { "title": "Daily Calories" },
+  "meal": {
+    "breakfast": "breakfast",
+    "lunch": "lunch",
+    "snack": "snack",
+    "dinner": "dinner",
+    "total": "total"
+  },
+  "ingredient": {
+    "label": "ingredient",
+    "add": "Add Ingredient",
+    "name": "nom"
+  },
+  "details": "details",
+  "quantity": "quantity",
+  "protein": "protein",
+  "carbs": "carbs",
+  "carbohydrate": "carbohydrate",
+  "fat": "fat",
+  "lipid": "lipid",
+  "calories": "calories",
+  "actions": {
+    "cancel": "cancel",
+    "confirm": "confirm"
+  },
+  "errors": {
+    "invalid": "invalid",
+    "required": "required"
+  }
+}

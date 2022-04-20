@@ -9,6 +9,8 @@ import Meal from "../../Models/Meal";
 import { MealType } from "../../Models/MealType";
 import { MealActionType, MealReducer } from "../../state/Meal/MealState";
 import Food from "../../Models/Food";
+import { useTranslation } from "next-i18next";
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -76,6 +78,7 @@ export default function DailyTabs(props: DailyTabsProps) {
   const lunch = currentMeals.filter((f) => f.type === MealType.Lunch)[0];
   const snack = currentMeals.filter((f) => f.type === MealType.Snack)[0];
   const dinner = currentMeals.filter((f) => f.type === MealType.Dinner)[0];
+  const { t } = useTranslation();
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -88,11 +91,11 @@ export default function DailyTabs(props: DailyTabsProps) {
           allowScrollButtonsMobile
           aria-label="Daily Tabs"
         >
-          <Tab label="Breakfast" {...a11yProps(0)} />
-          <Tab label="Lunch" {...a11yProps(1)} />
-          <Tab label="Snack" {...a11yProps(2)} />
-          <Tab label="Dinner" {...a11yProps(3)} />
-          <Tab label="Total" {...a11yProps(4)} />
+          <Tab label={t("meal.breakfast")} {...a11yProps(0)} />
+          <Tab label={t("meal.lunch")} {...a11yProps(1)} />
+          <Tab label={t("meal.snack")} {...a11yProps(2)} />
+          <Tab label={t("meal.dinner")} {...a11yProps(3)} />
+          <Tab label={t("meal.total")} {...a11yProps(4)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
