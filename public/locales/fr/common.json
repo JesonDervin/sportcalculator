@@ -27,5 +27,9 @@
   "errors": {
     "invalid": "invalide",
     "required": "requis"
+  },
+  "menu": {
+    "daily": "daily",
+    "recipes": "recettes"
   }
 }
