@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import ProTip from "../src/ProTip";
-import Daily from "./Daily";
+import Daily from "../components/Daily/Daily";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Home: NextPage = () => {
@@ -26,7 +26,7 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-export async function getServerSideProps(props: { locale: string }) {
+export async function getStaticProps(props: { locale: string }) {
   const { locale } = props;
   return {
     props: {
