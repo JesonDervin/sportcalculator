@@ -12,6 +12,7 @@ import FoodHelper from "../../Models/Helpers/FoodHelper";
 import Food from "../../Models/Food";
 import { Delete } from "@mui/icons-material";
 import { useTranslation } from "next-i18next";
+import TotalFood from "../../Models/TotalMeal";
 
 interface FoodsTableProps {
   foods: Food[];
@@ -21,6 +22,7 @@ interface FoodsTableProps {
 export default function FoodsTable(props: FoodsTableProps) {
   const { foods, deleteFood } = props;
   const { t } = useTranslation();
+  const total = new TotalFood(foods);
   return (
     <TableContainer component={Paper}>
       <Table size="small">
@@ -61,6 +63,19 @@ export default function FoodsTable(props: FoodsTableProps) {
             </TableRow>
           ))}
         </TableBody>
+        <TableHead>
+          <TableRow
+            key={total.calories}
+            sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+          >
+            <TableCell scope="row">{t("total")}</TableCell>
+            <TableCell align="right">{total.quantity}</TableCell>
+            <TableCell align="right">{total.protein}</TableCell>
+            <TableCell align="right">{total.carbohydrate}</TableCell>
+            <TableCell align="right">{total.lipid}</TableCell>
+            <TableCell align="right">{total.calories}</TableCell>
+          </TableRow>
+        </TableHead>
       </Table>
     </TableContainer>
   );

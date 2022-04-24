@@ -17,7 +17,7 @@ const MainNavBar = () => {
       <Toolbar>
         <div>
           <Tabs
-            value={router.pathname}
+            value={router.asPath}
             onChange={handleChange}
             aria-label="icon label tabs example"
           >

@@ -4,14 +4,14 @@
     "breakfast": "petit déjeuner",
     "lunch": "déjeuner",
     "snack": "gouter",
-    "dinner": "dinner",
-    "total": "total"
+    "dinner": "dinner"
   },
   "ingredient": {
     "label": "ingrédient",
     "add": "Ajouter un Ingrédient",
     "name": "nom"
   },
+  "total": "total",
   "details": "détails",
   "quantity": "quantité",
   "protein": "protéine",

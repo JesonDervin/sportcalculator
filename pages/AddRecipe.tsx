@@ -1,9 +1,20 @@
-import { Container, Box } from "@mui/material";
+import { Container, Box, IconButton } from "@mui/material";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import MyRecipes from "../components/Recipe/MyRecipes";
-const Recipes = () => {
+import AddRecipeForm from "../components/Recipe/AddRecipeForm";
+import { useRouter } from "next/router";
+import ArrowBack from "@mui/icons-material/ArrowBack";
+
+const AddRecipe = () => {
+  const router = useRouter();
+
+  function handlePrevious() {
+    router.push("/Recipes");
+  }
   return (
-    <Container maxWidth="lg">
+    <Container>
+      <IconButton onClick={handlePrevious}>
+        <ArrowBack aria-label="previous" />
+      </IconButton>
       <Box
         sx={{
           my: 4,
@@ -13,13 +24,12 @@ const Recipes = () => {
           alignItems: "center",
         }}
       >
-        <MyRecipes />
+        <AddRecipeForm />
       </Box>
     </Container>
   );
 };
-
-export default Recipes;
+export default AddRecipe;
 export async function getStaticProps(props: { locale: string }) {
   const { locale } = props;
   return {

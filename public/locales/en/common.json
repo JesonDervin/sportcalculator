@@ -5,14 +5,18 @@
     "breakfast": "breakfast",
     "lunch": "lunch",
     "snack": "snack",
-    "dinner": "dinner",
-    "total": "total"
+    "dinner": "dinner"
   },
   "ingredient": {
     "label": "ingredient",
     "add": "Add Ingredient",
     "name": "nom"
   },
+  "recipe": {
+    "my": "my recipes",
+    "add": "add recipe"
+  },
+  "total": "total",
   "details": "details",
   "quantity": "quantity",
   "protein": "protein",

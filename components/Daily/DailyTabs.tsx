@@ -95,7 +95,7 @@ export default function DailyTabs(props: DailyTabsProps) {
           <Tab label={t("meal.lunch")} {...a11yProps(1)} />
           <Tab label={t("meal.snack")} {...a11yProps(2)} />
           <Tab label={t("meal.dinner")} {...a11yProps(3)} />
-          <Tab label={t("meal.total")} {...a11yProps(4)} />
+          <Tab label={t("total")} {...a11yProps(4)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
