@@ -1,6 +1,5 @@
 import Food from "./Food";
 
-export default interface Recipe {
-  name: string;
-  foods: Food[];
+export default class Recipe {
+  constructor(public name: string = "", public foods: Food[] = []) {}
 }

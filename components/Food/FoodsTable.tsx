@@ -13,14 +13,16 @@ import Food from "../../Models/Food";
 import { Delete } from "@mui/icons-material";
 import { useTranslation } from "next-i18next";
 import TotalFood from "../../Models/TotalMeal";
+import AddIngredientDialog from "./AddIngredientDialog";
 
 interface FoodsTableProps {
   foods: Food[];
   deleteFood: (index: number) => void;
+  onAddFood: (newFood: Food) => void;
 }
 
 export default function FoodsTable(props: FoodsTableProps) {
-  const { foods, deleteFood } = props;
+  const { foods, deleteFood, onAddFood } = props;
   const { t } = useTranslation();
   const total = new TotalFood(foods);
   return (
@@ -62,6 +64,11 @@ export default function FoodsTable(props: FoodsTableProps) {
               </TableCell>
             </TableRow>
           ))}
+          <TableRow>
+            <TableCell scope="row">
+              <AddIngredientDialog onAddFood={onAddFood} />
+            </TableCell>
+          </TableRow>
         </TableBody>
         <TableHead>
           <TableRow

@@ -16,11 +16,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useTranslation } from "next-i18next";
 
 interface FoodDialogProps {
-  handleAdd: (newFood: Food) => void;
+  onAddFood: (newFood: Food) => void;
 }
 
 export default function FoodDialog(props: FoodDialogProps) {
-  const { handleAdd } = props;
+  const { onAddFood } = props;
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     reset();
@@ -43,7 +43,7 @@ export default function FoodDialog(props: FoodDialogProps) {
   );
   const saveIngredient: SubmitHandler<Food> = () => {
     handleClose();
-    handleAdd(currentIngredient);
+    onAddFood(currentIngredient);
   };
 
   const handleFood = (

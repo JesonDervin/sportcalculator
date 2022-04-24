@@ -14,7 +14,8 @@
   },
   "recipe": {
     "my": "my recipes",
-    "add": "add recipe"
+    "add": "add recipe",
+    "name": "recipe name"
   },
   "total": "total",
   "details": "details",
@@ -27,7 +28,8 @@
   "calories": "calories",
   "actions": {
     "cancel": "cancel",
-    "confirm": "confirm"
+    "confirm": "confirm",
+    "add": "add"
   },
   "errors": {
     "invalid": "invalid",
