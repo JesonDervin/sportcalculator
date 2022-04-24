@@ -1,4 +1,4 @@
-import TotalMeal from "../../Models/TotalMeal";
+import TotalFood from "../../Models/TotalMeal";
 import {
   Paper,
   Table,
@@ -11,11 +11,11 @@ import {
 import { MealType } from "../../Models/MealType";
 
 interface TotalMealTableProps {
-  totalMeal: TotalMeal;
+  total: TotalFood;
 }
 
 export default function TotalMealTable(props: TotalMealTableProps) {
-  const { totalMeal } = props;
+  const { total } = props;
   return (
     <TableContainer component={Paper}>
       <Table size="small" aria-label={MealType.Total}>
@@ -35,11 +35,11 @@ export default function TotalMealTable(props: TotalMealTableProps) {
         </TableHead>
         <TableBody>
           <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-            <TableCell align="right">{totalMeal.quantity}</TableCell>
-            <TableCell align="right">{totalMeal.protein}</TableCell>
-            <TableCell align="right">{totalMeal.carbohydrate}</TableCell>
-            <TableCell align="right">{totalMeal.lipid}</TableCell>
-            <TableCell align="right">{totalMeal.calories}</TableCell>
+            <TableCell align="right">{total.quantity}</TableCell>
+            <TableCell align="right">{total.protein}</TableCell>
+            <TableCell align="right">{total.carbohydrate}</TableCell>
+            <TableCell align="right">{total.lipid}</TableCell>
+            <TableCell align="right">{total.calories}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

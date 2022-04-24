@@ -13,13 +13,13 @@ import Food from "../../Models/Food";
 import { Delete } from "@mui/icons-material";
 import { useTranslation } from "next-i18next";
 
-interface MealTableProps {
-  mealFood: Food[];
+interface FoodsTableProps {
+  foods: Food[];
   deleteFood: (index: number) => void;
 }
 
-export default function MealTable(props: MealTableProps) {
-  const { mealFood, deleteFood } = props;
+export default function FoodsTable(props: FoodsTableProps) {
+  const { foods, deleteFood } = props;
   const { t } = useTranslation();
   return (
     <TableContainer component={Paper}>
@@ -36,7 +36,7 @@ export default function MealTable(props: MealTableProps) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {mealFood.map((food: Food, index: number) => (
+          {foods.map((food: Food, index: number) => (
             <TableRow
               key={food.name}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

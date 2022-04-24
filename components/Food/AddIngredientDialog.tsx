@@ -41,7 +41,7 @@ export default function FoodDialog(props: FoodDialogProps) {
   const [currentIngredient, setCurrentIngredient] = React.useState<Food>(
     new Food()
   );
-  const saveIngredient: SubmitHandler<Food> = (data: Food) => {
+  const saveIngredient: SubmitHandler<Food> = () => {
     handleClose();
     handleAdd(currentIngredient);
   };
