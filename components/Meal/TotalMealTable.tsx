@@ -1,4 +1,4 @@
-import TotalFood from "../../Models/TotalMeal";
+import TotalFood from "../../src/Models/TotalMeal";
 import {
   Paper,
   Table,
@@ -8,7 +8,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { MealType } from "../../Models/MealType";
+import { MealType } from "../../src/Models/MealType";
 
 interface TotalMealTableProps {
   total: TotalFood;

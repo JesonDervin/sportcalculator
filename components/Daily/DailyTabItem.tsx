@@ -1,8 +1,8 @@
 import * as React from "react";
-import Meal from "../../Models/Meal";
-import Food from "../../Models/Food";
+import Meal from "../../src/Models/Meal";
+import Food from "../../src/Models/Food";
 import FoodsTable from "../Food/FoodsTable";
-import { MealType } from "../../Models/MealType";
+import { MealType } from "../../src/Models/MealType";
 
 interface DailyTabItemProps {
   meal: Meal;

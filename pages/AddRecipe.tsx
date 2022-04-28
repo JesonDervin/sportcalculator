@@ -3,6 +3,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import AddRecipeForm from "../components/Recipe/AddRecipeForm";
 import { useRouter } from "next/router";
 import ArrowBack from "@mui/icons-material/ArrowBack";
+import React from "react";
 
 const AddRecipe = () => {
   const router = useRouter();
@@ -11,22 +12,24 @@ const AddRecipe = () => {
     router.push("/Recipes");
   }
   return (
-    <Container>
+    <React.Fragment>
       <IconButton onClick={handlePrevious}>
         <ArrowBack aria-label="previous" />
       </IconButton>
-      <Box
-        sx={{
-          my: 4,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <AddRecipeForm />
-      </Box>
-    </Container>
+      <Container>
+        <Box
+          sx={{
+            my: 4,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <AddRecipeForm />
+        </Box>
+      </Container>
+    </React.Fragment>
   );
 };
 export default AddRecipe;

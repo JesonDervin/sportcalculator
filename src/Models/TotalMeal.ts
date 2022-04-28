@@ -1,5 +1,5 @@
 import Food from "./Food";
-import FoodHelper from "./Helpers/FoodHelper";
+import FoodHelper from "../Helpers/FoodHelper";
 
 export default class TotalFood {
   private allFoods: Food[];
