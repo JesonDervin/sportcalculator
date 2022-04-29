@@ -14,6 +14,7 @@ export enum MealActionType {
   REMOVEFOOD = "REMOVEFOOD",
 }
 
+// * handle state for all day meal
 export const MealReducer = (state: Meal[], action: MealAction) => {
   const { type, mealType, food, foodIndex } = action;
   switch (type) {
@@ -28,6 +29,7 @@ export const MealReducer = (state: Meal[], action: MealAction) => {
       if (typeof foodIndex !== "undefined") {
         const targetedMeal = state.filter((f) => f.type === mealType)[0];
         targetedMeal.foods.splice(foodIndex, 1);
+        // returning state because filter return a reference and not a shallow copy
         return [...state];
       }
       return state;

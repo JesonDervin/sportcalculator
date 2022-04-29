@@ -1,9 +1,8 @@
 import * as React from "react";
-import Meal from "../../Models/Meal";
-import Food from "../../Models/Food";
-import AddIngredientDialog from "../Food/AddIngredientDialog";
-import MealTable from "../Meal/MealTable";
-import { MealType } from "../../Models/MealType";
+import Meal from "../../src/Models/Meal";
+import Food from "../../src/Models/Food";
+import FoodsTable from "../Food/FoodsTable";
+import { MealType } from "../../src/Models/MealType";
 
 interface DailyTabItemProps {
   meal: Meal;
@@ -24,8 +23,11 @@ export default function DailyTabItem(props: DailyTabItemProps) {
 
   return (
     <div>
-      <MealTable mealFood={meal.foods} deleteFood={handleDelete} />
-      <AddIngredientDialog handleAdd={handleAdd} />
+      <FoodsTable
+        foods={meal.foods}
+        deleteFood={handleDelete}
+        onAddFood={handleAdd}
+      />
     </div>
   );
 }
