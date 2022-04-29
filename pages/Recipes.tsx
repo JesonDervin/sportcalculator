@@ -1,6 +1,22 @@
+import { Container, Box } from "@mui/material";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import MyRecipes from "../components/Recipe/MyRecipes";
 const Recipes = () => {
-  return <div>RECIPES</div>;
+  return (
+    <Container maxWidth="lg">
+      <Box
+        sx={{
+          my: 4,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <MyRecipes />
+      </Box>
+    </Container>
+  );
 };
 
 export default Recipes;

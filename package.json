@@ -21,7 +21,8 @@
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-hook-form": "^7.30.0"
+    "react-hook-form": "^7.30.0",
+    "usehooks-ts": "^2.5.1"
   },
   "devDependencies": {
     "@types/node": "^17.0.19",

@@ -5,10 +5,10 @@ import Box from "@mui/material/Box";
 import DailyTabItem from "./DailyTabItem";
 
 import DailyTotal from "./DailyTotal";
-import Meal from "../../Models/Meal";
-import { MealType } from "../../Models/MealType";
-import { MealActionType, MealReducer } from "../../state/Meal/MealState";
-import Food from "../../Models/Food";
+import Meal from "../../src/Models/Meal";
+import { MealType } from "../../src/Models/MealType";
+import { MealActionType, MealReducer } from "../../src/State/Meal/MealState";
+import Food from "../../src/Models/Food";
 import { useTranslation } from "next-i18next";
 
 interface TabPanelProps {
@@ -95,7 +95,7 @@ export default function DailyTabs(props: DailyTabsProps) {
           <Tab label={t("meal.lunch")} {...a11yProps(1)} />
           <Tab label={t("meal.snack")} {...a11yProps(2)} />
           <Tab label={t("meal.dinner")} {...a11yProps(3)} />
-          <Tab label={t("meal.total")} {...a11yProps(4)} />
+          <Tab label={t("total")} {...a11yProps(4)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>

@@ -11,16 +11,16 @@ import {
   InputAdornment,
   TextField,
 } from "@mui/material";
-import Food from "../../Models/Food";
+import Food from "../../src/Models/Food";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useTranslation } from "next-i18next";
 
 interface FoodDialogProps {
-  handleAdd: (newFood: Food) => void;
+  onAddFood: (newFood: Food) => void;
 }
 
 export default function FoodDialog(props: FoodDialogProps) {
-  const { handleAdd } = props;
+  const { onAddFood } = props;
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     reset();
@@ -41,9 +41,9 @@ export default function FoodDialog(props: FoodDialogProps) {
   const [currentIngredient, setCurrentIngredient] = React.useState<Food>(
     new Food()
   );
-  const saveIngredient: SubmitHandler<Food> = (data: Food) => {
+  const saveIngredient: SubmitHandler<Food> = () => {
     handleClose();
-    handleAdd(currentIngredient);
+    onAddFood(currentIngredient);
   };
 
   const handleFood = (
@@ -72,12 +72,13 @@ export default function FoodDialog(props: FoodDialogProps) {
       </IconButton>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{t("ingredient.add")}</DialogTitle>
-        <form onSubmit={handleSubmit(saveIngredient)} noValidate>
+        <div>
           <DialogContent>
             <Grid container direction="column">
               <Grid container spacing={2}>
                 <Grid item xs>
                   <TextField
+                    variant="outlined"
                     error={errors.name ? true : false}
                     helperText={errors.name ? t("errors.required") : ""}
                     label={t("ingredient.name")}
@@ -177,11 +178,11 @@ export default function FoodDialog(props: FoodDialogProps) {
             <Button color="error" onClick={handleClose}>
               {t("actions.cancel")}
             </Button>
-            <Button color="primary" type="submit">
+            <Button color="primary" onClick={handleSubmit(saveIngredient)}>
               {t("actions.confirm")}
             </Button>
           </DialogActions>
-        </form>
+        </div>
       </Dialog>
     </div>
   );

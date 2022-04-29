@@ -5,14 +5,20 @@
     "breakfast": "breakfast",
     "lunch": "lunch",
     "snack": "snack",
-    "dinner": "dinner",
-    "total": "total"
+    "dinner": "dinner"
   },
   "ingredient": {
     "label": "ingredient",
     "add": "Add Ingredient",
-    "name": "nom"
+    "name": "name",
+    "details": "nutritional details"
   },
+  "recipe": {
+    "my": "my recipes",
+    "add": "add recipe",
+    "name": "recipe name"
+  },
+  "total": "total",
   "details": "details",
   "quantity": "quantity",
   "protein": "protein",
@@ -23,7 +29,8 @@
   "calories": "calories",
   "actions": {
     "cancel": "cancel",
-    "confirm": "confirm"
+    "confirm": "confirm",
+    "add": "add"
   },
   "errors": {
     "invalid": "invalid",

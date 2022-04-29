@@ -1,11 +1,10 @@
 import Food from "./Food";
-import Meal from "./Meal";
-import FoodHelper from "./Helpers/FoodHelper";
+import FoodHelper from "../Helpers/FoodHelper";
 
-export default class TotalMeal {
+export default class TotalFood {
   private allFoods: Food[];
-  constructor(meals: Meal[]) {
-    this.allFoods = meals.flatMap((meal) => meal.foods);
+  constructor(foods: Food[]) {
+    this.allFoods = foods;
   }
 
   public get quantity(): number {
