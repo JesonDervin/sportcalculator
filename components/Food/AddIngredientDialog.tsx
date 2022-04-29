@@ -72,115 +72,117 @@ export default function FoodDialog(props: FoodDialogProps) {
       </IconButton>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>{t("ingredient.add")}</DialogTitle>
-
-        <DialogContent>
-          <Grid container direction="column">
-            <Grid container spacing={2}>
-              <Grid item xs>
-                <TextField
-                  error={errors.name ? true : false}
-                  helperText={errors.name ? t("errors.required") : ""}
-                  label={t("ingredient.name")}
-                  type="search"
-                  value={currentIngredient.name}
-                  {...register("name", {
-                    required: true,
-                    onChange: handleFood,
-                  })}
-                />
+        <div>
+          <DialogContent>
+            <Grid container direction="column">
+              <Grid container spacing={2}>
+                <Grid item xs>
+                  <TextField
+                    variant="outlined"
+                    error={errors.name ? true : false}
+                    helperText={errors.name ? t("errors.required") : ""}
+                    label={t("ingredient.name")}
+                    type="search"
+                    value={currentIngredient.name}
+                    {...register("name", {
+                      required: true,
+                      onChange: handleFood,
+                    })}
+                  />
+                </Grid>
+                <Grid item xs>
+                  <TextField
+                    error={errors.quantity ? true : false}
+                    helperText={errors.quantity ? t("errors.invalid") : ""}
+                    label={t("quantity")}
+                    value={currentIngredient.quantity}
+                    type="number"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">g</InputAdornment>
+                      ),
+                    }}
+                    {...register("quantity", {
+                      required: true,
+                      onChange: handleFood,
+                      min: 0,
+                    })}
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs>
-                <TextField
-                  error={errors.quantity ? true : false}
-                  helperText={errors.quantity ? t("errors.invalid") : ""}
-                  label={t("quantity")}
-                  value={currentIngredient.quantity}
-                  type="number"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">g</InputAdornment>
-                    ),
-                  }}
-                  {...register("quantity", {
-                    required: true,
-                    onChange: handleFood,
-                    min: 0,
-                  })}
-                />
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <h3>NutritionalDetails</h3>
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    error={errors.protein ? true : false}
+                    helperText={errors.protein ? t("errors.invalid") : ""}
+                    label={t("protein")}
+                    type="number"
+                    value={currentIngredient.protein}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">g</InputAdornment>
+                      ),
+                    }}
+                    {...register("protein", numberConstraints)}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    error={errors.carbohydrate ? true : false}
+                    helperText={errors.carbohydrate ? t("errors.invalid") : ""}
+                    label={t("carbohydrate")}
+                    type="number"
+                    value={currentIngredient.carbohydrate}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">g</InputAdornment>
+                      ),
+                    }}
+                    {...register("carbohydrate", numberConstraints)}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    error={errors.lipid ? true : false}
+                    helperText={errors.lipid ? t("errors.invalid") : ""}
+                    label={t("lipid")}
+                    type="number"
+                    value={currentIngredient.lipid}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">g</InputAdornment>
+                      ),
+                    }}
+                    {...register("lipid", numberConstraints)}
+                  />
+                </Grid>
               </Grid>
             </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <h3>NutritionalDetails</h3>
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  error={errors.protein ? true : false}
-                  helperText={errors.protein ? t("errors.invalid") : ""}
-                  label={t("protein")}
-                  type="number"
-                  value={currentIngredient.protein}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">g</InputAdornment>
-                    ),
-                  }}
-                  {...register("protein", numberConstraints)}
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  error={errors.carbohydrate ? true : false}
-                  helperText={errors.carbohydrate ? t("errors.invalid") : ""}
-                  label={t("carbohydrate")}
-                  type="number"
-                  value={currentIngredient.carbohydrate}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">g</InputAdornment>
-                    ),
-                  }}
-                  {...register("carbohydrate", numberConstraints)}
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  error={errors.lipid ? true : false}
-                  helperText={errors.lipid ? t("errors.invalid") : ""}
-                  label={t("lipid")}
-                  type="number"
-                  value={currentIngredient.lipid}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">g</InputAdornment>
-                    ),
-                  }}
-                  {...register("lipid", numberConstraints)}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button color="error" onClick={handleClose}>
-            {t("actions.cancel")}
-          </Button>
-          <Button color="primary" onClick={handleSubmit(saveIngredient)}>
-            {t("actions.confirm")}
-          </Button>
-        </DialogActions>
+          </DialogContent>
+          <DialogActions>
+            <Button color="error" onClick={handleClose}>
+              {t("actions.cancel")}
+            </Button>
+            <Button color="primary" onClick={handleSubmit(saveIngredient)}>
+              {t("actions.confirm")}
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
     </div>
   );

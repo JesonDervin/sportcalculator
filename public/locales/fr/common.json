@@ -9,7 +9,8 @@
   "ingredient": {
     "label": "ingrédient",
     "add": "Ajouter un Ingrédient",
-    "name": "nom"
+    "name": "nom",
+    "details": "valeurs nutritionnel"
   },
   "recipe": {
     "my": "my recipes",
