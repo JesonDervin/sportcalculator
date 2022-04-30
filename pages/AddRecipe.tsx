@@ -1,4 +1,4 @@
-import { Container, Box, IconButton, Card } from "@mui/material";
+import { Container, IconButton, Card } from "@mui/material";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import AddRecipeForm from "../components/Recipe/AddRecipeForm";
 import { useRouter } from "next/router";
