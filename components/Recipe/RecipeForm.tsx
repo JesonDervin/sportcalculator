@@ -11,12 +11,24 @@ import { useLocalStorage } from "usehooks-ts";
 import { useRouter } from "next/router";
 import { v4 as uuidv4 } from "uuid";
 
-const AddRecipeForm = () => {
+interface RecipeFormProps {
+  recipeToEdit?: Recipe;
+}
+
+const RecipeForm = (props: RecipeFormProps) => {
+  const { recipeToEdit } = props;
+  console.log("recipeToEdit", typeof recipeToEdit);
+  const isEdit = typeof recipeToEdit !== typeof undefined;
   const router = useRouter();
 
   const { t } = useTranslation();
-  const [currentRecipe, setRecipe] = React.useState<Recipe>(new Recipe());
-  const [currentFoods, dispatch] = React.useReducer(FoodsReducer, []);
+  const [currentRecipe, setRecipe] = React.useState<Recipe>(
+    isEdit ? (recipeToEdit as Recipe) : new Recipe()
+  );
+  const [currentFoods, dispatch] = React.useReducer(
+    FoodsReducer,
+    isEdit ? (recipeToEdit?.foods as Food[]) : []
+  );
   const [storedRecipes, setStoredRecipes] = useLocalStorage<Recipe[]>(
     LocalStorageKeys.Recipes,
     []
@@ -55,8 +67,24 @@ const AddRecipeForm = () => {
     router.push("/Recipes");
   };
 
+  const editRecipe: SubmitHandler<Recipe> = () => {
+    const recipeEdited = {
+      ...currentRecipe,
+      foods: [...currentFoods],
+    } as Recipe;
+    const indexToRemove = storedRecipes.findIndex(
+      (recipe) => recipe.id === recipeEdited.id
+    );
+    storedRecipes.splice(indexToRemove, 1);
+    storedRecipes.push(recipeEdited);
+    setStoredRecipes(storedRecipes);
+    router.push("/Recipes");
+  };
+
   return (
-    <form onSubmit={handleSubmit(saveRecipe)}>
+    <form
+      onSubmit={isEdit ? handleSubmit(editRecipe) : handleSubmit(saveRecipe)}
+    >
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
@@ -82,11 +110,11 @@ const AddRecipeForm = () => {
         </Grid>
         <Grid item alignContent="flex-end">
           <Button variant="contained" color="success" type="submit">
-            {t("actions.add")}
+            {isEdit ? t("actions.edit") : t("actions.add")}
           </Button>
         </Grid>
       </Grid>
     </form>
   );
 };
-export default AddRecipeForm;
+export default RecipeForm;

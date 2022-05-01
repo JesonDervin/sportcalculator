@@ -7,6 +7,7 @@ import LocalStorageKeys from "../../src/Models/LocalStorageKeys";
 import Recipe from "../../src/Models/Recipe";
 import { useLocalStorage } from "usehooks-ts";
 import { useRouter } from "next/router";
+import RecipeForm from "../../components/Recipe/RecipeForm";
 
 const EditRecipe = () => {
   const { t } = useTranslation();
@@ -32,7 +33,9 @@ const EditRecipe = () => {
     <RecipeLayout>
       <h1>{t("recipe.edit")}</h1>
       {currentRecipeRef.current ? (
-        <div>Edit Recipe Form</div>
+        <div>
+          <RecipeForm recipeToEdit={currentRecipeRef.current} />
+        </div>
       ) : (
         <div>{t("errors.invalid")}</div>
       )}
