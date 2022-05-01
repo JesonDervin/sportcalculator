@@ -9,6 +9,7 @@ import FoodsTable from "../Food/FoodsTable";
 import LocalStorageKeys from "../../src/Models/LocalStorageKeys";
 import { useLocalStorage } from "usehooks-ts";
 import { useRouter } from "next/router";
+import { v4 as uuidv4 } from "uuid";
 
 const AddRecipeForm = () => {
   const router = useRouter();
@@ -48,6 +49,7 @@ const AddRecipeForm = () => {
     const savedRecipe = {
       ...currentRecipe,
       foods: [...currentFoods],
+      id: uuidv4(),
     } as Recipe;
     setStoredRecipes([...storedRecipes, savedRecipe]);
     router.push("/Recipes");

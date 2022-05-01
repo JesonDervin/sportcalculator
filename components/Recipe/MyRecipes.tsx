@@ -5,6 +5,7 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
+import * as React from "react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import AddIcon from "@mui/icons-material/Add";
@@ -21,23 +22,33 @@ const MyRecipes = () => {
     LocalStorageKeys.Recipes,
     []
   );
-
+  const currentRecipes = React.useRef([] as Recipe[]);
+  React.useEffect(() => {
+    currentRecipes.current = [...storedRecipes];
+  }, [storedRecipes]);
   function handleAddRecipe() {
     router.push("/AddRecipe", "/Recipes");
+  }
+  function handleEdit(id: string) {
+    router.push("/Recipe/[recipeId]", `/Recipe/${id}`);
   }
   return (
     <div>
       <h1>{t("recipe.my")}</h1>
       <List dense={true}>
-        {storedRecipes.map((recipe: Recipe, index: number) => (
-          <MyRecipesListItem recipe={recipe} key={index} />
+        {currentRecipes.current.map((recipe: Recipe, index: number) => (
+          <MyRecipesListItem
+            recipe={recipe}
+            onEdit={() => handleEdit(recipe.id)}
+            key={index}
+          />
         ))}
-        {storedRecipes.length == 0 && (
-          <ListItem>
+        {currentRecipes.current.length == 0 && (
+          <ListItem key="norecipe" component="li">
             <ListItemText>{t("recipe.empty")}</ListItemText>
           </ListItem>
         )}
-        <ListItemButton>
+        <ListItemButton component="li">
           <IconButton
             edge="start"
             color="primary"
