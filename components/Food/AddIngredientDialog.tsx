@@ -61,7 +61,7 @@ export default function FoodDialog(props: FoodDialogProps) {
     setCurrentIngredient({
       ...currentIngredient,
       [e.currentTarget.name]: e.currentTarget.value,
-    });
+    } as Food);
   };
 
   const numberConstraints = { required: true, onChange: handleFood, min: 0 };

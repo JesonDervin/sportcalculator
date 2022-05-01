@@ -1,4 +1,4 @@
-import TotalFood from "../../src/Models/TotalMeal";
+import TotalFood from "../../src/Models/TotalFood";
 import {
   Paper,
   Table,
