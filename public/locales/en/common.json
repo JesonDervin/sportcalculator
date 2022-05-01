@@ -16,7 +16,8 @@
   "recipe": {
     "my": "my recipes",
     "add": "add recipe",
-    "name": "recipe name"
+    "name": "recipe name",
+    "empty": "no recipes"
   },
   "total": "total",
   "details": "details",
@@ -30,7 +31,8 @@
   "actions": {
     "cancel": "cancel",
     "confirm": "confirm",
-    "add": "add"
+    "add": "add",
+    "edit": "edit"
   },
   "errors": {
     "invalid": "invalid",
