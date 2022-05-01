@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { AppBar, Toolbar, CssBaseline, Tab, Tabs } from "@mui/material";
 import { useTranslation } from "next-i18next";
 import { EventAvailable, StickyNote2 } from "@mui/icons-material";
+import { getRouterPage } from "../../src/Helpers/RouterHelper";
+
 const MainNavBar = () => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -11,13 +13,14 @@ const MainNavBar = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     router.push(newValue);
   };
+  const currentPage = getRouterPage(router);
   return (
     <AppBar position="static" color="transparent">
       <CssBaseline />
       <Toolbar>
         <div>
           <Tabs
-            value={router.asPath}
+            value={currentPage}
             onChange={handleChange}
             aria-label="icon label tabs example"
           >
