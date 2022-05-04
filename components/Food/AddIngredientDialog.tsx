@@ -31,6 +31,7 @@ export default function FoodDialog(props: FoodDialogProps) {
   );
   const { onAddFood } = props;
   const [open, setOpen] = React.useState(false);
+  const [recipe, setRecipe] = React.useState(new Recipe());
   const handleClickOpen = () => {
     reset();
     setCurrentIngredient(new Food());
@@ -64,9 +65,55 @@ export default function FoodDialog(props: FoodDialogProps) {
     } as Food);
   };
 
+  const handleQuantity = (
+    e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    const newQuantity = +e.currentTarget.value;
+    const newFood = {
+      ...currentIngredient,
+      quantity: newQuantity,
+    } as Food;
+    if (recipe !== null) {
+      newFood.protein = recipe.proteinPerQuantity(newQuantity);
+      newFood.carbohydrate = recipe.carbohydratePerQuantity(newQuantity);
+      newFood.lipid = recipe.lipidPerQuantity(newQuantity);
+    }
+    setCurrentIngredient(newFood);
+  };
+
   const numberConstraints = { required: true, onChange: handleFood, min: 0 };
 
   const { t } = useTranslation();
+
+  const update = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: Recipe | string | null
+  ) => {
+    let foodToSet = new Food();
+    setRecipe(null);
+    if (value !== null) {
+      if (typeof value === "string") {
+        const stored = storedRecipes.find((recipe) => recipe.id === value);
+        if (stored) {
+          // * have to do this to trigger getters, were undefined otherwise
+          const recipe = new Recipe(stored.name, stored.id, stored.foods);
+          setRecipe(recipe);
+          foodToSet = new Food(
+            recipe.name,
+            recipe.proteinPerQuantity(),
+            recipe.carbohydratePerQuantity(),
+            recipe.lipidPerQuantity()
+          );
+        } else {
+          foodToSet = {
+            ...currentIngredient,
+            name: value,
+          } as Food;
+        }
+      }
+    }
+    setCurrentIngredient(foodToSet);
+  };
 
   return (
     <div>
@@ -87,9 +134,11 @@ export default function FoodDialog(props: FoodDialogProps) {
               <Grid container spacing={2}>
                 <Grid item xs>
                   <Autocomplete
+                    onInputChange={update}
                     freeSolo={true}
                     disablePortal
                     options={storedRecipes}
+                    inputValue={currentIngredient.name}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -97,11 +146,9 @@ export default function FoodDialog(props: FoodDialogProps) {
                         error={errors.name ? true : false}
                         helperText={errors.name ? t("errors.required") : ""}
                         label={t("ingredient.name")}
-                        type="search"
                         value={currentIngredient.name}
                         {...register("name", {
                           required: true,
-                          onChange: handleFood,
                         })}
                       />
                     )}
@@ -130,7 +177,7 @@ export default function FoodDialog(props: FoodDialogProps) {
                     }}
                     {...register("quantity", {
                       required: true,
-                      onChange: handleFood,
+                      onChange: handleQuantity,
                       min: 0,
                     })}
                   />

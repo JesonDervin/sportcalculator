@@ -17,7 +17,6 @@ interface RecipeFormProps {
 
 const RecipeForm = (props: RecipeFormProps) => {
   const { recipeToEdit } = props;
-  console.log("recipeToEdit", typeof recipeToEdit);
   const isEdit = typeof recipeToEdit !== typeof undefined;
   const router = useRouter();
 

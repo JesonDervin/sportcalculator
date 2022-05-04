@@ -13,28 +13,28 @@ export default class Recipe {
     );
   }
 
-  get proteinPer100gram() {
+  proteinPerQuantity(quantity = 100) {
     const totalProtein = this.foods.reduce(
       (previous: number, current: Food) => previous + Number(current.protein),
       0
     );
-    return totalProtein / this.totalQuantity / 100;
+    return (totalProtein / this.totalQuantity) * quantity;
   }
 
-  get carbohydrate100gram() {
+  carbohydratePerQuantity(quantity = 100) {
     const totalCarbohydrate = this.foods.reduce(
       (previous: number, current: Food) =>
         previous + Number(current.carbohydrate),
       0
     );
-    return totalCarbohydrate / this.totalQuantity / 100;
+    return (totalCarbohydrate / this.totalQuantity) * quantity;
   }
 
-  get lipidPer100gram() {
+  lipidPerQuantity(quantity = 100) {
     const totalLipid = this.foods.reduce(
       (previous: number, current: Food) => previous + Number(current.lipid),
       0
     );
-    return totalLipid / this.totalQuantity / 100;
+    return (totalLipid / this.totalQuantity) * quantity;
   }
 }
