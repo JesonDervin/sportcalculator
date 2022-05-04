@@ -31,7 +31,7 @@ export default function FoodDialog(props: FoodDialogProps) {
   );
   const { onAddFood } = props;
   const [open, setOpen] = React.useState(false);
-  const [recipe, setRecipe] = React.useState(new Recipe());
+  const [recipe, setRecipe] = React.useState<Recipe | null>(null);
   const handleClickOpen = () => {
     reset();
     setCurrentIngredient(new Food());
