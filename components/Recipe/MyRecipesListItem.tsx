@@ -1,13 +1,8 @@
-import {
-  IconButton,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-} from "@mui/material";
+import { IconButton, ListItemButton, ListItemText } from "@mui/material";
 import Recipe from "../../src/Models/Recipe";
 import { useTranslation } from "next-i18next";
 import EditIcon from "@mui/icons-material/Edit";
-import TotalFood from "../../src/Models/TotalMeal";
+import TotalFood from "../../src/Models/TotalFood";
 
 interface MyRecipesListItemProps {
   recipe: Recipe;

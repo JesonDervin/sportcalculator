@@ -2,6 +2,8 @@ import * as React from "react";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import {
+  Autocomplete,
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -14,14 +16,22 @@ import {
 import Food from "../../src/Models/Food";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useTranslation } from "next-i18next";
+import { useLocalStorage } from "usehooks-ts";
+import Recipe from "../../src/Models/Recipe";
+import LocalStorageKeys from "../../src/Models/LocalStorageKeys";
 
 interface FoodDialogProps {
   onAddFood: (newFood: Food) => void;
 }
 
 export default function FoodDialog(props: FoodDialogProps) {
+  const [storedRecipes] = useLocalStorage<Recipe[]>(
+    LocalStorageKeys.Recipes,
+    []
+  );
   const { onAddFood } = props;
   const [open, setOpen] = React.useState(false);
+  const [recipe, setRecipe] = React.useState<Recipe | null>(null);
   const handleClickOpen = () => {
     reset();
     setCurrentIngredient(new Food());
@@ -52,12 +62,58 @@ export default function FoodDialog(props: FoodDialogProps) {
     setCurrentIngredient({
       ...currentIngredient,
       [e.currentTarget.name]: e.currentTarget.value,
-    });
+    } as Food);
+  };
+
+  const handleQuantity = (
+    e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    const newQuantity = +e.currentTarget.value;
+    const newFood = {
+      ...currentIngredient,
+      quantity: newQuantity,
+    } as Food;
+    if (recipe !== null) {
+      newFood.protein = recipe.proteinPerQuantity(newQuantity);
+      newFood.carbohydrate = recipe.carbohydratePerQuantity(newQuantity);
+      newFood.lipid = recipe.lipidPerQuantity(newQuantity);
+    }
+    setCurrentIngredient(newFood);
   };
 
   const numberConstraints = { required: true, onChange: handleFood, min: 0 };
 
   const { t } = useTranslation();
+
+  const update = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: Recipe | string | null
+  ) => {
+    let foodToSet = new Food();
+    setRecipe(null);
+    if (value !== null) {
+      if (typeof value === "string") {
+        const stored = storedRecipes.find((recipe) => recipe.id === value);
+        if (stored) {
+          // * have to do this to trigger getters, were undefined otherwise
+          const recipe = new Recipe(stored.name, stored.id, stored.foods);
+          setRecipe(recipe);
+          foodToSet = new Food(
+            recipe.name,
+            recipe.proteinPerQuantity(),
+            recipe.carbohydratePerQuantity(),
+            recipe.lipidPerQuantity()
+          );
+        } else {
+          foodToSet = {
+            ...currentIngredient,
+            name: value,
+          } as Food;
+        }
+      }
+    }
+    setCurrentIngredient(foodToSet);
+  };
 
   return (
     <div>
@@ -77,17 +133,31 @@ export default function FoodDialog(props: FoodDialogProps) {
             <Grid container direction="column">
               <Grid container spacing={2}>
                 <Grid item xs>
-                  <TextField
-                    variant="outlined"
-                    error={errors.name ? true : false}
-                    helperText={errors.name ? t("errors.required") : ""}
-                    label={t("ingredient.name")}
-                    type="search"
-                    value={currentIngredient.name}
-                    {...register("name", {
-                      required: true,
-                      onChange: handleFood,
-                    })}
+                  <Autocomplete
+                    onInputChange={update}
+                    freeSolo={true}
+                    disablePortal
+                    options={storedRecipes}
+                    inputValue={currentIngredient.name}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        error={errors.name ? true : false}
+                        helperText={errors.name ? t("errors.required") : ""}
+                        label={t("ingredient.name")}
+                        value={currentIngredient.name}
+                        {...register("name", {
+                          required: true,
+                        })}
+                      />
+                    )}
+                    getOptionLabel={(option) => option.id}
+                    renderOption={(props, option) => (
+                      <Box component="li" {...props}>
+                        {option.name}
+                      </Box>
+                    )}
                   />
                 </Grid>
                 <Grid item xs>
@@ -107,7 +177,7 @@ export default function FoodDialog(props: FoodDialogProps) {
                     }}
                     {...register("quantity", {
                       required: true,
-                      onChange: handleFood,
+                      onChange: handleQuantity,
                       min: 0,
                     })}
                   />

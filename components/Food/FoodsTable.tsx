@@ -12,7 +12,7 @@ import FoodHelper from "../../src/Helpers/FoodHelper";
 import Food from "../../src/Models/Food";
 import { Delete } from "@mui/icons-material";
 import { useTranslation } from "next-i18next";
-import TotalFood from "../../src/Models/TotalMeal";
+import TotalFood from "../../src/Models/TotalFood";
 import AddIngredientDialog from "./AddIngredientDialog";
 
 interface FoodsTableProps {
