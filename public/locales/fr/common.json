@@ -27,6 +27,7 @@
   "fat": "lipide",
   "lipid": "lipide",
   "calories": "calories",
+  "caloriesShort": "cal",
   "actions": {
     "cancel": "annuler",
     "confirm": "confirmer",
@@ -40,5 +41,9 @@
   "menu": {
     "daily": "daily",
     "recipes": "recettes"
+  },
+  "unit": {
+    "gram": "grammes",
+    "gramShort": "g"
   }
 }

@@ -28,6 +28,7 @@
   "fat": "fat",
   "lipid": "lipid",
   "calories": "calories",
+  "caloriesShort": "cal",
   "actions": {
     "cancel": "cancel",
     "confirm": "confirm",
@@ -41,5 +42,9 @@
   "menu": {
     "daily": "daily",
     "recipes": "recipes"
+  },
+  "unit": {
+    "gram": "grams",
+    "gramShort": "g"
   }
 }

@@ -1,4 +1,3 @@
-import TotalFood from "../../src/Models/TotalFood";
 import {
   Paper,
   Table,
@@ -9,10 +8,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { MealType } from "../../src/Models/MealType";
-
-interface TotalMealTableProps {
-  total: TotalFood;
-}
+import TotalMealTableProps from "../../src/Models/TotalMealTableProps";
 
 export default function TotalMealTable(props: TotalMealTableProps) {
   const { total } = props;

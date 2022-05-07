@@ -14,12 +14,7 @@ import { Delete } from "@mui/icons-material";
 import { useTranslation } from "next-i18next";
 import TotalFood from "../../src/Models/TotalFood";
 import AddIngredientDialog from "./AddIngredientDialog";
-
-interface FoodsTableProps {
-  foods: Food[];
-  deleteFood: (index: number) => void;
-  onAddFood: (newFood: Food) => void;
-}
+import FoodsTableProps from "../../src/Models/FoodsTableProps";
 
 export default function FoodsTable(props: FoodsTableProps) {
   const { foods, deleteFood, onAddFood } = props;
@@ -31,10 +26,18 @@ export default function FoodsTable(props: FoodsTableProps) {
         <TableHead>
           <TableRow>
             <TableCell>{t("ingredient.label")}</TableCell>
-            <TableCell align="right">{t("quantity")}&nbsp;(g)</TableCell>
-            <TableCell align="right">{t("protein")}&nbsp;(g)</TableCell>
-            <TableCell align="right">{t("carbs")}&nbsp;(g)</TableCell>
-            <TableCell align="right">{t("fat")}&nbsp;(g)</TableCell>
+            <TableCell align="right">
+              {t("quantity")}&nbsp;{t("unit.gramShort")}
+            </TableCell>
+            <TableCell align="right">
+              {t("protein")}&nbsp;{t("unit.gramShort")}
+            </TableCell>
+            <TableCell align="right">
+              {t("carbs")}&nbsp;{t("unit.gramShort")}
+            </TableCell>
+            <TableCell align="right">
+              {t("fat")}&nbsp;{t("unit.gramShort")}
+            </TableCell>
             <TableCell align="right">{t("calories")}</TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
