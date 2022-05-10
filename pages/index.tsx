@@ -2,7 +2,6 @@ import * as React from "react";
 import type { NextPage } from "next";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import ProTip from "../src/ProTip";
 import Daily from "../components/Daily/Daily";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -19,7 +18,6 @@ const Home: NextPage = () => {
         }}
       >
         <Daily />
-        <ProTip />
       </Box>
     </Container>
   );

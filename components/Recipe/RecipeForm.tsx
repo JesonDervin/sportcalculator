@@ -47,7 +47,7 @@ const RecipeForm = (props: RecipeFormProps) => {
     setRecipe({
       ...currentRecipe,
       [e.currentTarget.name]: e.currentTarget.value,
-    });
+    } as Recipe);
   };
 
   const {
