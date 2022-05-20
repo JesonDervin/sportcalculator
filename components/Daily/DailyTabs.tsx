@@ -10,6 +10,7 @@ import { MealType } from "../../src/Models/MealType";
 import { MealActionType, MealReducer } from "../../src/State/Meal/MealState";
 import Food from "../../src/Models/Food";
 import { useTranslation } from "next-i18next";
+import DailyMeals from "../../src/Models/DailyMeals";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -45,11 +46,17 @@ function a11yProps(index: number) {
 }
 
 interface DailyTabsProps {
-  meals: Meal[];
+  dailyMeals: DailyMeals;
 }
 
 export default function DailyTabs(props: DailyTabsProps) {
-  const { meals } = props;
+  const { dailyMeals } = props;
+  const meals = [
+    dailyMeals.breakfast,
+    dailyMeals.lunch,
+    dailyMeals.snack,
+    dailyMeals.lunch,
+  ];
   const [currentMeals, dispatch] = React.useReducer(MealReducer, [...meals]);
 
   const handleDeleteFood = (mealType: MealType, foodIndex: number) => {

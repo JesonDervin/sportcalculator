@@ -16,6 +16,7 @@
     "@emotion/styled": "latest",
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
+    "luxon": "^2.4.0",
     "next": "latest",
     "next-i18next": "^11.0.0",
     "prop-types": "latest",
@@ -26,6 +27,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/luxon": "^2.3.2",
     "@types/node": "^17.0.19",
     "@types/react": "^17.0.39",
     "@types/uuid": "^8.3.4",
