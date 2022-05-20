@@ -41,7 +41,8 @@
   },
   "menu": {
     "daily": "daily",
-    "recipes": "recipes"
+    "recipes": "recipes",
+    "followUp": "follow-up"
   },
   "unit": {
     "gram": "grams",
