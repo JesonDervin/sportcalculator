@@ -5,36 +5,42 @@ import FoodsTable from "../Food/FoodsTable";
 import { MealType } from "../../src/Models/MealType";
 import { Box } from "@mui/material";
 import FoodsMobileTable from "../Food/FoodsMobileTable";
-
+import { useSetRecoilState } from "recoil";
+import { todayMealFoodsPerType } from "../../src/State/DailyMeal";
 interface DailyTabItemProps {
   meal: Meal;
-  deleteFood: (mealType: MealType, foodIndex: number) => void;
-  addFood: (mealType: MealType, food: Food) => void;
+  mealType: MealType;
 }
 
 export default function DailyTabItem(props: DailyTabItemProps) {
-  const { meal, deleteFood, addFood } = props;
+  const { meal, mealType } = props;
+
+  const setTypedMeal = useSetRecoilState(todayMealFoodsPerType(mealType));
+  const [foods, setFoods] = React.useState(meal.foods);
 
   const handleDelete = (index: number) => {
-    deleteFood(meal.type, index);
+    foods.splice(index, 1);
+    setFoods([...foods]);
+    setTypedMeal([...foods]);
   };
 
   const handleAdd = (newFood: Food) => {
-    addFood(meal.type, newFood);
+    setFoods([...foods, newFood]);
+    setTypedMeal([...foods, newFood]);
   };
 
   return (
     <React.Fragment>
       <Box sx={{ display: { xs: "none", md: "block" } }}>
         <FoodsTable
-          foods={meal.foods}
+          foods={foods}
           deleteFood={handleDelete}
           onAddFood={handleAdd}
         />
       </Box>
       <Box sx={{ display: { xs: "block", md: "none" } }}>
         <FoodsMobileTable
-          foods={meal.foods}
+          foods={foods}
           deleteFood={handleDelete}
           onAddFood={handleAdd}
         ></FoodsMobileTable>

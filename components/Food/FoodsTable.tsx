@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   IconButton,
   Paper,
@@ -18,6 +19,10 @@ import FoodsTableProps from "../../src/Models/FoodsTableProps";
 
 export default function FoodsTable(props: FoodsTableProps) {
   const { foods, deleteFood, onAddFood } = props;
+  const foodsRef = React.useRef([...foods]);
+  React.useEffect(() => {
+    foodsRef.current = [...foods];
+  }, [foods]);
   const { t } = useTranslation();
   const total = new TotalFood(foods);
   return (

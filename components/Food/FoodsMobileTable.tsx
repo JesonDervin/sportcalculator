@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   IconButton,
   Paper,
@@ -11,13 +12,13 @@ import {
 import FoodHelper from "../../src/Helpers/FoodHelper";
 import FoodsTableProps from "../../src/Models/FoodsTableProps";
 import { useTranslation } from "next-i18next";
-import React from "react";
 import Food from "../../src/Models/Food";
 import { Delete } from "@mui/icons-material";
 import AddIngredientDialog from "./AddIngredientDialog";
 
 const FoodsMobileTable = (props: FoodsTableProps) => {
   const { foods, deleteFood, onAddFood } = props;
+
   const { t } = useTranslation();
 
   return (
