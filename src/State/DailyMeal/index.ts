@@ -25,6 +25,14 @@ export const dailiesMealsState = atom({
   ],
 });
 
+export const storedDates = selector<string[]>({
+  key: "storedDates",
+  get: ({ get }) => {
+    const dailyMeals = get(dailiesMealsState);
+    return dailyMeals.map((d) => d.date);
+  },
+});
+
 export const dailyMealStatePerDate = selectorFamily<DailyMeals, string>({
   key: "dailyMealStatePerDate",
   get:

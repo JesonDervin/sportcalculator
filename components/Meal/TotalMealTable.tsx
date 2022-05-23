@@ -11,14 +11,14 @@ import { MealType } from "../../src/Models/MealType";
 import TotalMealTableProps from "../../src/Models/TotalMealTableProps";
 
 export default function TotalMealTable(props: TotalMealTableProps) {
-  const { total } = props;
+  const { total, date } = props;
   return (
     <TableContainer component={Paper}>
       <Table size="small" aria-label={MealType.Total}>
         <TableHead>
           <TableRow>
             <TableCell align="center" colSpan={12}>
-              {MealType.Total}
+              {MealType.Total} : {date}
             </TableCell>
           </TableRow>
           <TableRow>

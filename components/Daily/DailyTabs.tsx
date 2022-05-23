@@ -7,7 +7,6 @@ import DailyTabItem from "./DailyTabItem";
 import DailyTotal from "./DailyTotal";
 import { MealType } from "../../src/Models/MealType";
 import { useTranslation } from "next-i18next";
-import DailyMeals from "../../src/Models/DailyMeals";
 import { DateTime } from "luxon";
 
 interface TabPanelProps {
