@@ -20,6 +20,7 @@ import FoodsTableProps from "../../src/Models/FoodsTableProps";
 export default function FoodsTable(props: FoodsTableProps) {
   const { foods, deleteFood, onAddFood } = props;
   // use this state has we have rehysratation issue
+  // more info https://www.joshwcomeau.com/react/the-perils-of-rehydration/
   const [currentFoods, setCurrentFoods] = React.useState([] as Food[]);
   React.useEffect(() => {
     setCurrentFoods(foods);
