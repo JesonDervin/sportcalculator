@@ -21,10 +21,10 @@ export default function DailyTotal(props: DailyTotalProps) {
   return (
     <React.Fragment>
       <Box sx={{ display: { xs: "none", md: "block" } }}>
-        <TotalMealTable total={totalFood} date={date} />
+        <TotalMealTable total={totalFood} />
       </Box>
       <Box sx={{ display: { xs: "block", md: "none" } }}>
-        <TotalMealTableMobile total={totalFood} date={date} />
+        <TotalMealTableMobile total={totalFood} />
       </Box>
     </React.Fragment>
   );

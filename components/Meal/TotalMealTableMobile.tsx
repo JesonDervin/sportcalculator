@@ -10,14 +10,13 @@ import TotalMealTableProps from "../../src/Models/TotalMealTableProps";
 import { useTranslation } from "next-i18next";
 
 export default function TotalMealTableMobile(props: TotalMealTableProps) {
-  const { total, date } = props;
+  const { total } = props;
   const { t } = useTranslation();
   return (
     <TableContainer component={Paper}>
       <Table size="small">
         <TableBody>
           <TableRow>
-            <TableCell>{date}</TableCell>
             <TableCell>
               {t("total")} {total.quantity}
               {t("unit.gramShort")}
@@ -26,6 +25,7 @@ export default function TotalMealTableMobile(props: TotalMealTableProps) {
               {total.calories}
               {t("caloriesShort")}
             </TableCell>
+            <TableCell></TableCell>
           </TableRow>
           <TableRow>
             <TableCell>

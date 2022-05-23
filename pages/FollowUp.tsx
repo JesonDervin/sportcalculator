@@ -1,7 +1,6 @@
-import { Box, Container } from "@mui/material";
+import { Box, Card, Container, Paper, Stack, Typography } from "@mui/material";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRecoilValue } from "recoil";
-import DailyMeals from "../src/Models/DailyMeals";
 import { storedDates } from "../src/State/DailyMeal";
 import { useState, useEffect } from "react";
 import DailyTotal from "../components/Daily/DailyTotal";
@@ -24,9 +23,14 @@ const FollowUp = () => {
           alignItems: "center",
         }}
       >
-        {currentDates.map((date: string) => (
-          <DailyTotal date={date} key={date} />
-        ))}
+        <Stack spacing={2} justifyContent="center">
+          {currentDates.map((date: string) => (
+            <Card key={date}>
+              <Typography align="center">{date}</Typography>
+              <DailyTotal date={date} />
+            </Card>
+          ))}
+        </Stack>
       </Box>
     </Container>
   );
