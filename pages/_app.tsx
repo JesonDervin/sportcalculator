@@ -5,6 +5,7 @@ import { CacheProvider, EmotionCache } from "@emotion/react";
 import createEmotionCache from "../src/createEmotionCache";
 import { appWithTranslation } from "next-i18next";
 import MainLayout from "../components/Layout/MainLayout";
+import { RecoilRoot } from "recoil";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -20,9 +21,11 @@ const MyApp = (props: MyAppProps) => {
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <MainLayout>
-        <Component {...pageProps} />
-      </MainLayout>
+      <RecoilRoot>
+        <MainLayout>
+          <Component {...pageProps} />
+        </MainLayout>
+      </RecoilRoot>
     </CacheProvider>
   );
 };

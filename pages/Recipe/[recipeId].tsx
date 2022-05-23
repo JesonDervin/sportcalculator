@@ -53,6 +53,8 @@ export async function getStaticProps(props: { locale: string }) {
     },
   };
 }
+
+// * making get recipeId from router avalaible in components
 export const getStaticPaths: GetStaticPaths<{
   recipeId: string;
 }> = async () => {

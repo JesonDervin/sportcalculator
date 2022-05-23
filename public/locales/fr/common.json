@@ -1,4 +1,5 @@
 {
+  "appname": "sports calculator",
   "daily": { "title": "Calories journalière" },
   "meal": {
     "breakfast": "petit déjeuner",
@@ -13,9 +14,9 @@
     "details": "valeurs nutritionnel"
   },
   "recipe": {
-    "my": "my recipes",
-    "add": "add recipe",
-    "name": "recipe name",
+    "my": "mes recettes",
+    "add": "ajouter une recette",
+    "name": "nom de la recette",
     "empty": "pas de recettes"
   },
   "total": "total",
@@ -40,7 +41,8 @@
   },
   "menu": {
     "daily": "daily",
-    "recipes": "recettes"
+    "recipes": "recettes",
+    "followUp": "follow-up"
   },
   "unit": {
     "gram": "grammes",

@@ -5,11 +5,9 @@ import Box from "@mui/material/Box";
 import DailyTabItem from "./DailyTabItem";
 
 import DailyTotal from "./DailyTotal";
-import Meal from "../../src/Models/Meal";
 import { MealType } from "../../src/Models/MealType";
-import { MealActionType, MealReducer } from "../../src/State/Meal/MealState";
-import Food from "../../src/Models/Food";
 import { useTranslation } from "next-i18next";
+import { DateTime } from "luxon";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -44,41 +42,13 @@ function a11yProps(index: number) {
   };
 }
 
-interface DailyTabsProps {
-  meals: Meal[];
-}
-
-export default function DailyTabs(props: DailyTabsProps) {
-  const { meals } = props;
-  const [currentMeals, dispatch] = React.useReducer(MealReducer, [...meals]);
-
-  const handleDeleteFood = (mealType: MealType, foodIndex: number) => {
-    dispatch({
-      type: MealActionType.REMOVEFOOD,
-      mealType: mealType,
-      foodIndex: foodIndex,
-    });
-  };
-  const handleAddFood = (mealType: MealType, food: Food) => {
-    dispatch({
-      type: MealActionType.ADDFOOD,
-      mealType: mealType,
-      food: food,
-    });
-  };
-
+export default function DailyTabs() {
   const [value, setValue] = React.useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-  const breakFast = currentMeals.filter(
-    (f) => f.type === MealType.Breakfast
-  )[0];
-  const lunch = currentMeals.filter((f) => f.type === MealType.Lunch)[0];
-  const snack = currentMeals.filter((f) => f.type === MealType.Snack)[0];
-  const dinner = currentMeals.filter((f) => f.type === MealType.Dinner)[0];
   const { t } = useTranslation();
+  const today = DateTime.now().toISODate();
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -99,35 +69,19 @@ export default function DailyTabs(props: DailyTabsProps) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <DailyTabItem
-          meal={breakFast}
-          deleteFood={handleDeleteFood}
-          addFood={handleAddFood}
-        />
+        <DailyTabItem mealType={MealType.Breakfast} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <DailyTabItem
-          meal={lunch}
-          deleteFood={handleDeleteFood}
-          addFood={handleAddFood}
-        />
+        <DailyTabItem mealType={MealType.Lunch} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <DailyTabItem
-          meal={snack}
-          deleteFood={handleDeleteFood}
-          addFood={handleAddFood}
-        />
+        <DailyTabItem mealType={MealType.Snack} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <DailyTabItem
-          meal={dinner}
-          deleteFood={handleDeleteFood}
-          addFood={handleAddFood}
-        />
+        <DailyTabItem mealType={MealType.Dinner} />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <DailyTotal meals={currentMeals} />
+        <DailyTotal date={today} />
       </TabPanel>
     </Box>
   );

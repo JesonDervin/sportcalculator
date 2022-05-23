@@ -10,4 +10,5 @@ export function getRouterPage(router: NextRouter) {
   if (page.includes("Recipe")) {
     return "/Recipes";
   }
+  return `/${page}`;
 }
