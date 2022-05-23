@@ -8,6 +8,7 @@ import DailyTotal from "./DailyTotal";
 import { MealType } from "../../src/Models/MealType";
 import { useTranslation } from "next-i18next";
 import DailyMeals from "../../src/Models/DailyMeals";
+import { DateTime } from "luxon";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -42,18 +43,13 @@ function a11yProps(index: number) {
   };
 }
 
-interface DailyTabsProps {
-  dailyMeals: DailyMeals;
-}
-
-export default function DailyTabs(props: DailyTabsProps) {
-  const { dailyMeals } = props;
-
+export default function DailyTabs() {
   const [value, setValue] = React.useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
   const { t } = useTranslation();
+  const today = DateTime.now().toISODate();
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -74,22 +70,19 @@ export default function DailyTabs(props: DailyTabsProps) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <DailyTabItem
-          meal={dailyMeals.breakfast}
-          mealType={MealType.Breakfast}
-        />
+        <DailyTabItem mealType={MealType.Breakfast} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <DailyTabItem meal={dailyMeals.lunch} mealType={MealType.Lunch} />
+        <DailyTabItem mealType={MealType.Lunch} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <DailyTabItem meal={dailyMeals.snack} mealType={MealType.Snack} />
+        <DailyTabItem mealType={MealType.Snack} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <DailyTabItem meal={dailyMeals.dinner} mealType={MealType.Dinner} />
+        <DailyTabItem mealType={MealType.Dinner} />
       </TabPanel>
       <TabPanel value={value} index={4}>
-        <DailyTotal meals={dailyMeals} />
+        <DailyTotal date={today} />
       </TabPanel>
     </Box>
   );

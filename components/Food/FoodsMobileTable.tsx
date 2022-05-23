@@ -18,12 +18,17 @@ import AddIngredientDialog from "./AddIngredientDialog";
 
 const FoodsMobileTable = (props: FoodsTableProps) => {
   const { foods, deleteFood, onAddFood } = props;
-
   const { t } = useTranslation();
+  // use this state has we have rehysratation issue
+  // more info https://www.joshwcomeau.com/react/the-perils-of-rehydration/
+  const [currentFoods, setCurrentFoods] = React.useState([] as Food[]);
+  React.useEffect(() => {
+    setCurrentFoods(foods);
+  }, [foods]);
 
   return (
     <Grid container spacing={2} direction="column" alignItems="center">
-      {foods.map((food: Food, index: number) => (
+      {currentFoods.map((food: Food, index: number) => (
         <Grid item key={food.name}>
           <TableContainer component={Paper}>
             <Table size="small">

@@ -25,6 +25,25 @@ export const dailiesMealsState = atom({
   ],
 });
 
+export const dailyMealStatePerDate = selectorFamily<DailyMeals, string>({
+  key: "dailyMealStatePerDate",
+  get:
+    (date: string) =>
+    ({ get }) => {
+      const meals = get(dailiesMealsState);
+      const mealAtDate = meals.filter((d) => d.date === date)[0];
+      return (
+        mealAtDate ??
+        new DailyMeals(
+          new Meal(MealType.Breakfast),
+          new Meal(MealType.Lunch),
+          new Meal(MealType.Snack),
+          new Meal(MealType.Dinner)
+        )
+      );
+    },
+});
+
 export const todayDailyMealState = selector<DailyMeals>({
   key: "todayDailyMealState",
   get: ({ get }) => {
@@ -40,6 +59,94 @@ export const todayDailyMealState = selector<DailyMeals>({
         new Meal(MealType.Dinner)
       )
     );
+  },
+});
+
+export const todayBreakfastFoods = selector<Food[]>({
+  key: "todayBreakfastFoods",
+  get: ({ get }) => {
+    const todayMeals = get(todayDailyMealState);
+    return todayMeals.breakfast.foods;
+  },
+  set: ({ get, set }, newValue) => {
+    const newFoods = newValue as Food[];
+    const todayMeals = get(todayDailyMealState);
+    const today = DateTime.now().toISODate();
+    const copyDaily = get(dailiesMealsState);
+    const todayIndex = copyDaily.findIndex((f) => f.date === today);
+    copyDaily[todayIndex] = new DailyMeals(
+      new Meal(MealType.Breakfast, newFoods),
+      todayMeals.lunch,
+      todayMeals.snack,
+      todayMeals.dinner
+    );
+    set(dailiesMealsState, copyDaily);
+  },
+});
+
+export const todayLunchFoods = selector<Food[]>({
+  key: "todayLunchFoods",
+  get: ({ get }) => {
+    const todayMeals = get(todayDailyMealState);
+    return todayMeals.lunch.foods;
+  },
+  set: ({ get, set }, newValue) => {
+    const newFoods = newValue as Food[];
+    const todayMeals = get(todayDailyMealState);
+    const today = DateTime.now().toISODate();
+    const copyDaily = get(dailiesMealsState);
+    const todayIndex = copyDaily.findIndex((f) => f.date === today);
+    copyDaily[todayIndex] = new DailyMeals(
+      todayMeals.breakfast,
+      new Meal(MealType.Lunch, newFoods),
+      todayMeals.snack,
+      todayMeals.dinner
+    );
+    set(dailiesMealsState, copyDaily);
+  },
+});
+
+export const todaySnackFoods = selector<Food[]>({
+  key: "todaySnackFoods",
+  get: ({ get }) => {
+    const todayMeals = get(todayDailyMealState);
+    return todayMeals.snack.foods;
+  },
+  set: ({ get, set }, newValue) => {
+    const newFoods = newValue as Food[];
+    const todayMeals = get(todayDailyMealState);
+    const today = DateTime.now().toISODate();
+    const copyDaily = get(dailiesMealsState);
+    const todayIndex = copyDaily.findIndex((f) => f.date === today);
+    copyDaily[todayIndex] = new DailyMeals(
+      todayMeals.breakfast,
+      todayMeals.lunch,
+      new Meal(MealType.Snack, newFoods),
+      todayMeals.dinner
+    );
+    set(dailiesMealsState, copyDaily);
+  },
+});
+
+export const todayDinnerFoods = selector<Food[]>({
+  key: "todayDinnerFoods",
+  get: ({ get }) => {
+    const todayMeals = get(todayDailyMealState);
+    return todayMeals.dinner.foods;
+  },
+  set: ({ get, set }, newValue) => {
+    const newFoods = newValue as Food[];
+    const todayMeals = get(todayDailyMealState);
+    const today = DateTime.now().toISODate();
+    const copyDaily = get(dailiesMealsState);
+    const todayIndex = copyDaily.findIndex((f) => f.date === today);
+    copyDaily[todayIndex] = new DailyMeals(
+      todayMeals.breakfast,
+      todayMeals.lunch,
+      todayMeals.snack,
+      new Meal(MealType.Dinner, newFoods)
+    );
+    set(dailiesMealsState, copyDaily);
   },
 });
 

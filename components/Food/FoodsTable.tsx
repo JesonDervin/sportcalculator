@@ -19,12 +19,13 @@ import FoodsTableProps from "../../src/Models/FoodsTableProps";
 
 export default function FoodsTable(props: FoodsTableProps) {
   const { foods, deleteFood, onAddFood } = props;
-  const foodsRef = React.useRef([...foods]);
+  // use this state has we have rehysratation issue
+  const [currentFoods, setCurrentFoods] = React.useState([] as Food[]);
   React.useEffect(() => {
-    foodsRef.current = [...foods];
+    setCurrentFoods(foods);
   }, [foods]);
   const { t } = useTranslation();
-  const total = new TotalFood(foods);
+  const total = new TotalFood(currentFoods);
   return (
     <TableContainer component={Paper}>
       <Table size="small">
@@ -48,7 +49,7 @@ export default function FoodsTable(props: FoodsTableProps) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {foods.map((food: Food, index: number) => (
+          {currentFoods.map((food: Food, index: number) => (
             <TableRow
               key={food.name}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
