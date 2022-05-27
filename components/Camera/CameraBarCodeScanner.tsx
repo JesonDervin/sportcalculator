@@ -17,12 +17,12 @@ const CameraBarCodeScanner = (props: CameraBarCodeScannerProps) => {
             name: "Live",
             type: "LiveStream",
             target: document.querySelector("#scanner-container"),
-            constraints: {
-              //   width: 480,
-              //   height: 320,
-              facingMode: "environment",
-              aspectRatio: { min: 1, max: 2 },
-            },
+            // constraints: {
+            //   width: 450,
+            //   height: 300,
+            //   facingMode: "environment",
+            //   aspectRatio: { min: 1, max: 2 },
+            // },
           },
           decoder: {
             readers: [

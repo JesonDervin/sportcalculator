@@ -1,10 +1,10 @@
 import { Container } from "@mui/material";
-import CameraScannerDrawer from "../components/Camera/CameraScannerDrawer";
+import CameraScannerDialog from "../components/Camera/CameraScannerDialog";
 
 const Camera = () => {
   return (
     <Container>
-      <CameraScannerDrawer />
+      <CameraScannerDialog onBarCodeSave={() => void 0} />
     </Container>
   );
 };
