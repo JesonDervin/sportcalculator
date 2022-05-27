@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
-    "strict":true,
-    "target": "es5",
+    "strict": true,
+    "target": "es6",
     "lib": [
       "es6",
       "dom",
-      "dom.iterable",
-      "esnext"
+      "dom.iterable"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -26,8 +25,9 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "next.config.js"  ],
+    "**/*.tsx",
+    "next.config.js"
+  ],
   "exclude": [
     "node_modules"
   ]

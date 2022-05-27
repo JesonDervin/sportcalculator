@@ -47,5 +47,10 @@
   "unit": {
     "gram": "grams",
     "gramShort": "g"
+  },
+  "scan": {
+    "label": "scan barcode",
+    "barcode": "barcode",
+    "nobarcode": "no barcode"
   }
 }

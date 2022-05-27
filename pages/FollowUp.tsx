@@ -1,4 +1,4 @@
-import { Box, Card, Container, Paper, Stack, Typography } from "@mui/material";
+import { Box, Card, Container, Stack, Typography } from "@mui/material";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRecoilValue } from "recoil";
 import { storedDates } from "../src/State/DailyMeal";
