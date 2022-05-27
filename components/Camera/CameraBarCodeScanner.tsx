@@ -44,16 +44,14 @@ const CameraBarCodeScanner = (props: CameraBarCodeScannerProps) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         function (err: any) {
           if (err) {
-            console.log(err);
+            console.error(err);
             return;
           }
 
-          console.log("Initialization finished. Ready to start");
           Quagga.start();
 
           // Set flag to is running
           return () => {
-            console.log(stop);
             Quagga.stop();
           };
         }
@@ -104,10 +102,6 @@ const CameraBarCodeScanner = (props: CameraBarCodeScannerProps) => {
       // * quagga does not has typescript
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       Quagga.onDetected(function (result: any) {
-        console.log(
-          "Barcode detected and processed : [" + result.codeResult.code + "]",
-          result
-        );
         OnBarcodeDetected(result.codeResult.code);
       });
     }

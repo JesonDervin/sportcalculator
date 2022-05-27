@@ -19,6 +19,7 @@ import { useTranslation } from "next-i18next";
 import { useLocalStorage } from "usehooks-ts";
 import Recipe from "../../src/Models/Recipe";
 import LocalStorageKeys from "../../src/Models/LocalStorageKeys";
+import CameraScannerDialog from "../Camera/CameraScannerDialog";
 
 interface FoodDialogProps {
   onAddFood: (newFood: Food) => void;
@@ -127,7 +128,10 @@ export default function FoodDialog(props: FoodDialogProps) {
         <AddIcon />
       </IconButton>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{t("ingredient.add")}</DialogTitle>
+        <DialogTitle>
+          {t("ingredient.add")}{" "}
+          <CameraScannerDialog onBarCodeSave={() => void 0} />
+        </DialogTitle>
         <div>
           <DialogContent>
             <Grid container direction="column">

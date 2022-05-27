@@ -6,10 +6,13 @@ import {
   Button,
   Dialog,
   IconButton,
+  Slide,
   Toolbar,
   Typography,
 } from "@mui/material";
 import CameraBarCodeScanner from "./CameraBarCodeScanner";
+import { useTranslation } from "next-i18next";
+import { TransitionProps } from "@mui/material/transitions";
 
 interface CameraScannerDialogProps {
   onBarCodeSave: (newBarCode: string) => void;
@@ -37,17 +40,25 @@ const CameraScannerDialog = (props: CameraScannerDialogProps) => {
     setOpen(false);
     onBarCodeSave(barCode);
   };
+
+  const { t } = useTranslation();
+
   return (
     <React.Fragment>
       <Button
-        variant="outlined"
+        size="small"
         startIcon={<CameraAltIcon />}
         onClick={handleClickOpen}
       >
-        SCANINGREDIENT
+        {t("scan.label")}
       </Button>
 
-      <Dialog fullScreen open={open} onClose={handleClose}>
+      <Dialog
+        fullScreen
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
         <AppBar sx={{ position: "relative" }}>
           <Toolbar>
             <IconButton
@@ -59,11 +70,15 @@ const CameraScannerDialog = (props: CameraScannerDialogProps) => {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Barcode : {barCode}
+              {barCode !== ""
+                ? `${t("scan.barcode")}: ${barCode}`
+                : t("scan.nobarcode")}
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleSave}>
-              save
-            </Button>
+            {barCode !== "" && (
+              <Button autoFocus color="inherit" onClick={handleSave}>
+                save
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
 
@@ -72,4 +87,13 @@ const CameraScannerDialog = (props: CameraScannerDialogProps) => {
     </React.Fragment>
   );
 };
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 export default CameraScannerDialog;
