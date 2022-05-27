@@ -20,6 +20,7 @@
     "next": "latest",
     "next-i18next": "^11.0.0",
     "prop-types": "latest",
+    "quagga": "^0.12.1",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "^7.30.0",

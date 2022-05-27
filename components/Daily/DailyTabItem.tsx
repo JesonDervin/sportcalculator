@@ -1,11 +1,10 @@
 import * as React from "react";
-import Meal from "../../src/Models/Meal";
 import Food from "../../src/Models/Food";
 import FoodsTable from "../Food/FoodsTable";
 import { MealType } from "../../src/Models/MealType";
 import { Box } from "@mui/material";
 import FoodsMobileTable from "../Food/FoodsMobileTable";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { todayMealFoodsPerType } from "../../src/State/DailyMeal";
 interface DailyTabItemProps {
   mealType: MealType;
