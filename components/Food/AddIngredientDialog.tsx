@@ -35,7 +35,9 @@ export default function FoodDialog(props: FoodDialogProps) {
   const [open, setOpen] = React.useState(false);
   const autocompleteFoods = getFoodsForAutocomplete(i18n.language);
   const storedRecipes = useRecoilValue(recipesMealState);
-
+  const [currentIngredient, setCurrentIngredient] = React.useState<Food>(
+    new Food()
+  );
   React.useEffect(() => {
     const convertRecipesToAutocomplete = storedRecipes.map(r => new AutocompleteFood(r.id, r.name, r.proteinPerQuantity(), r.carbohydratePerQuantity(), r.lipidPerQuantity()));
     autocompleteFoods.concat(convertRecipesToAutocomplete);
@@ -58,9 +60,7 @@ export default function FoodDialog(props: FoodDialogProps) {
     formState: { errors },
   } = useForm<Food>({ criteriaMode: "all" });
 
-  const [currentIngredient, setCurrentIngredient] = React.useState<Food>(
-    new Food()
-  );
+
   const saveIngredient: SubmitHandler<Food> = () => {
     handleClose();
     onAddFood(currentIngredient);
@@ -98,7 +98,9 @@ export default function FoodDialog(props: FoodDialogProps) {
   ) => {
     let foodToSet = new Food();
     if (value !== null && typeof value === "string") {
+      console.log("value ", value)
       const stored = autocompleteFoods.find((food) => food.id === value);
+      console.log("stored ", stored)
       if (stored) {
         foodToSet = new Food(
           stored.name,
@@ -113,6 +115,7 @@ export default function FoodDialog(props: FoodDialogProps) {
         } as Food;
       }
     }
+    console.log("foodToSet", foodToSet);
     setCurrentIngredient(foodToSet);
   };
 
