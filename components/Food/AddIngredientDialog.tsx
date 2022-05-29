@@ -21,21 +21,32 @@ import CameraScannerDialog from "../Camera/CameraScannerDialog";
 import OpenFoodFactService from "../../src/Services/OpenFoodFactService";
 import { useRecoilValue } from "recoil";
 import { recipesMealState } from "../../src/State/Recipes";
+import { getFoodsForAutocomplete } from "../../src/Services/CiqualService";
+import AutocompleteFood from "../../src/Models/AutocompleteFood";
+import FoodHelper from "../../src/Helpers/FoodHelper";
 
 interface FoodDialogProps {
   onAddFood: (newFood: Food) => void;
 }
 
 export default function FoodDialog(props: FoodDialogProps) {
-  const storedRecipes = useRecoilValue(recipesMealState);
   const { onAddFood } = props;
+  const { t, i18n } = useTranslation();
   const [open, setOpen] = React.useState(false);
-  const [recipe, setRecipe] = React.useState<Recipe | null>(null);
+  const autocompleteFoods = getFoodsForAutocomplete(i18n.language);
+  const storedRecipes = useRecoilValue(recipesMealState);
+
+  React.useEffect(() => {
+    const convertRecipesToAutocomplete = storedRecipes.map(r => new AutocompleteFood(r.id, r.name, r.proteinPerQuantity(), r.carbohydratePerQuantity(), r.lipidPerQuantity()));
+    autocompleteFoods.concat(convertRecipesToAutocomplete);
+  }, [storedRecipes, autocompleteFoods])
+
   const handleClickOpen = () => {
     reset();
     setCurrentIngredient(new Food());
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -72,43 +83,34 @@ export default function FoodDialog(props: FoodDialogProps) {
       ...currentIngredient,
       quantity: newQuantity,
     } as Food;
-    if (recipe !== null) {
-      newFood.protein = recipe.proteinPerQuantity(newQuantity);
-      newFood.carbohydrate = recipe.carbohydratePerQuantity(newQuantity);
-      newFood.lipid = recipe.lipidPerQuantity(newQuantity);
-    }
+    newFood.protein = FoodHelper.calculatePer100gram(currentIngredient.protein, newQuantity);
+    newFood.carbohydrate = FoodHelper.calculatePer100gram(currentIngredient.carbohydrate, newQuantity);
+    newFood.lipid = FoodHelper.calculatePer100gram(currentIngredient.lipid, newQuantity);
     setCurrentIngredient(newFood);
   };
 
   const numberConstraints = { required: true, onChange: handleFood, min: 0 };
 
-  const { t } = useTranslation();
 
   const update = (
     event: React.SyntheticEvent<Element, Event>,
     value: Recipe | string | null
   ) => {
     let foodToSet = new Food();
-    setRecipe(null);
-    if (value !== null) {
-      if (typeof value === "string") {
-        const stored = storedRecipes.find((recipe) => recipe.id === value);
-        if (stored) {
-          // * have to do this to trigger getters, were undefined otherwise
-          const recipe = new Recipe(stored.name, stored.id, stored.foods);
-          setRecipe(recipe);
-          foodToSet = new Food(
-            recipe.name,
-            recipe.proteinPerQuantity(),
-            recipe.carbohydratePerQuantity(),
-            recipe.lipidPerQuantity()
-          );
-        } else {
-          foodToSet = {
-            ...currentIngredient,
-            name: value,
-          } as Food;
-        }
+    if (value !== null && typeof value === "string") {
+      const stored = autocompleteFoods.find((food) => food.id === value);
+      if (stored) {
+        foodToSet = new Food(
+          stored.name,
+          stored.proteinPer100g,
+          stored.carbohydratePer100g,
+          stored.lipidPer100g
+        );
+      } else {
+        foodToSet = {
+          ...currentIngredient,
+          name: value,
+        } as Food;
       }
     }
     setCurrentIngredient(foodToSet);
@@ -147,7 +149,7 @@ export default function FoodDialog(props: FoodDialogProps) {
                     onInputChange={update}
                     freeSolo={true}
                     disablePortal
-                    options={storedRecipes}
+                    options={autocompleteFoods}
                     inputValue={currentIngredient.name}
                     renderInput={(params) => (
                       <TextField
