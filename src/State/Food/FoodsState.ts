@@ -4,15 +4,17 @@ export interface FoodsAction {
   type: FoodsActionType;
   newFood?: Food;
   index?: number;
+  initFood?: Food[];
 }
 
 export enum FoodsActionType {
   ADD = "ADD",
   REMOVE = "REMOVE",
+  INIT = "INIT",
 }
 
 export const FoodsReducer = (state: Food[], action: FoodsAction) => {
-  const { type, newFood, index } = action;
+  const { type, newFood, index, initFood } = action;
   switch (type) {
     case FoodsActionType.ADD:
       if (newFood) {
@@ -26,6 +28,12 @@ export const FoodsReducer = (state: Food[], action: FoodsAction) => {
         return [...state];
       }
       return state;
+    case FoodsActionType.INIT: {
+      if (initFood) {
+        return [...initFood];
+      }
+      return state;
+    }
     default:
       return state;
   }

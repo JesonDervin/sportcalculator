@@ -2,35 +2,33 @@ import * as React from "react";
 import { useTranslation } from "next-i18next";
 import Recipe from "../../src/Models/Recipe";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Button, Grid, TextField } from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import Food from "../../src/Models/Food";
 import { FoodsActionType, FoodsReducer } from "../../src/State/Food/FoodsState";
 import FoodsTable from "../Food/FoodsTable";
-import LocalStorageKeys from "../../src/Models/LocalStorageKeys";
-import { useLocalStorage } from "usehooks-ts";
 import { useRouter } from "next/router";
-import { v4 as uuidv4 } from "uuid";
+import { useRecoilState } from "recoil";
+import { recipeStateById } from "../../src/State/Recipes";
+import FoodsMobileTable from "../Food/FoodsMobileTable";
 
 interface RecipeFormProps {
-  recipeToEdit?: Recipe;
+  recipeToEditId?: string;
 }
 
 const RecipeForm = (props: RecipeFormProps) => {
-  const { recipeToEdit } = props;
-  const isEdit = typeof recipeToEdit !== typeof undefined;
+  const { recipeToEditId } = props;
+  const isEdit = typeof recipeToEditId !== typeof undefined;
   const router = useRouter();
+  const [storedRecipe, setStoredRecipes] = useRecoilState(
+    recipeStateById(recipeToEditId as string)
+  );
 
   const { t } = useTranslation();
-  const [currentRecipe, setRecipe] = React.useState<Recipe>(
-    isEdit ? (recipeToEdit as Recipe) : new Recipe()
-  );
+  const [currentRecipe, setRecipe] = React.useState<Recipe>(new Recipe());
+
   const [currentFoods, dispatch] = React.useReducer(
     FoodsReducer,
-    isEdit ? (recipeToEdit?.foods as Food[]) : []
-  );
-  const [storedRecipes, setStoredRecipes] = useLocalStorage<Recipe[]>(
-    LocalStorageKeys.Recipes,
-    []
+    currentRecipe.foods
   );
 
   const handleAdd = (newFood: Food) => {
@@ -54,15 +52,15 @@ const RecipeForm = (props: RecipeFormProps) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Recipe>({ criteriaMode: "all" });
+    reset,
+  } = useForm<Recipe>({ criteriaMode: "all", defaultValues: currentRecipe });
 
   const saveRecipe: SubmitHandler<Recipe> = () => {
     const savedRecipe = {
       ...currentRecipe,
       foods: [...currentFoods],
-      id: uuidv4(),
     } as Recipe;
-    setStoredRecipes([...storedRecipes, savedRecipe]);
+    setStoredRecipes(savedRecipe);
     router.push("/Recipes");
   };
 
@@ -71,20 +69,27 @@ const RecipeForm = (props: RecipeFormProps) => {
       ...currentRecipe,
       foods: [...currentFoods],
     } as Recipe;
-    const indexToRemove = storedRecipes.findIndex(
-      (recipe) => recipe.id === recipeEdited.id
-    );
-    storedRecipes.splice(indexToRemove, 1);
-    storedRecipes.push(recipeEdited);
-    setStoredRecipes(storedRecipes);
+    setStoredRecipes(recipeEdited);
     router.push("/Recipes");
   };
 
+  const deleteRecipe = () => {
+    setStoredRecipes(undefined);
+    router.push("/Recipes");
+  };
+
+  React.useEffect(() => {
+    if (storedRecipe) {
+      setRecipe(storedRecipe);
+      dispatch({ type: FoodsActionType.INIT, initFood: storedRecipe.foods });
+      reset(storedRecipe);
+    }
+  }, [reset, storedRecipe]);
   return (
     <form
       onSubmit={isEdit ? handleSubmit(editRecipe) : handleSubmit(saveRecipe)}
     >
-      <Grid container spacing={2}>
+      <Grid container spacing={2} justifyContent="center" alignItems="center">
         <Grid item xs={12}>
           <TextField
             error={errors.name ? true : false}
@@ -98,18 +103,31 @@ const RecipeForm = (props: RecipeFormProps) => {
             })}
           />
         </Grid>
-        <Grid item xs={12}>
-          <div>
+        <Grid item>
+          <h2>{t("ingredient.label")}</h2>
+        </Grid>
+        <Grid item>
+          <Box sx={{ display: { xs: "none", md: "block" } }}>
             <FoodsTable
               foods={currentFoods}
               deleteFood={handleDelete}
               onAddFood={handleAdd}
             />
-          </div>
+          </Box>
+          <Box sx={{ display: { xs: "block", md: "none" } }}>
+            <FoodsMobileTable
+              foods={currentFoods}
+              deleteFood={handleDelete}
+              onAddFood={handleAdd}
+            ></FoodsMobileTable>
+          </Box>
         </Grid>
-        <Grid item alignContent="flex-end">
+        <Grid container item xs={12} justifyContent="space-between">
           <Button variant="contained" color="success" type="submit">
             {isEdit ? t("actions.edit") : t("actions.add")}
+          </Button>
+          <Button variant="contained" color="error" onClick={deleteRecipe}>
+            {t("actions.delete")}
           </Button>
         </Grid>
       </Grid>
