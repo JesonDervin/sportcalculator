@@ -16,21 +16,18 @@ import {
 import Food from "../../src/Models/Food";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useTranslation } from "next-i18next";
-import { useLocalStorage } from "usehooks-ts";
 import Recipe from "../../src/Models/Recipe";
-import LocalStorageKeys from "../../src/Models/LocalStorageKeys";
 import CameraScannerDialog from "../Camera/CameraScannerDialog";
 import OpenFoodFactService from "../../src/Services/OpenFoodFactService";
+import { useRecoilValue } from "recoil";
+import { recipesMealState } from "../../src/State/Recipes";
 
 interface FoodDialogProps {
   onAddFood: (newFood: Food) => void;
 }
 
 export default function FoodDialog(props: FoodDialogProps) {
-  const [storedRecipes] = useLocalStorage<Recipe[]>(
-    LocalStorageKeys.Recipes,
-    []
-  );
+  const storedRecipes = useRecoilValue(recipesMealState);
   const { onAddFood } = props;
   const [open, setOpen] = React.useState(false);
   const [recipe, setRecipe] = React.useState<Recipe | null>(null);
