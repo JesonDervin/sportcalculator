@@ -20,6 +20,7 @@ import { useLocalStorage } from "usehooks-ts";
 import Recipe from "../../src/Models/Recipe";
 import LocalStorageKeys from "../../src/Models/LocalStorageKeys";
 import CameraScannerDialog from "../Camera/CameraScannerDialog";
+import OpenFoodFactService from "../../src/Services/OpenFoodFactService";
 
 interface FoodDialogProps {
   onAddFood: (newFood: Food) => void;
@@ -116,6 +117,14 @@ export default function FoodDialog(props: FoodDialogProps) {
     setCurrentIngredient(foodToSet);
   };
 
+  const openFoodFactService = new OpenFoodFactService();
+  const handleBarCodeSave = async (newBarCode: string) => {
+    const retrievedFood = await openFoodFactService.getFoodInformation(
+      newBarCode
+    );
+    setCurrentIngredient(retrievedFood);
+  };
+
   return (
     <div>
       <IconButton
@@ -130,7 +139,7 @@ export default function FoodDialog(props: FoodDialogProps) {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
           {t("ingredient.add")}{" "}
-          <CameraScannerDialog onBarCodeSave={() => void 0} />
+          <CameraScannerDialog onBarCodeSave={handleBarCodeSave} />
         </DialogTitle>
         <div>
           <DialogContent>

@@ -1,5 +1,4 @@
 import * as React from "react";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   AppBar,
@@ -13,7 +12,7 @@ import {
 import CameraBarCodeScanner from "./CameraBarCodeScanner";
 import { useTranslation } from "next-i18next";
 import { TransitionProps } from "@mui/material/transitions";
-
+import QrCode2Icon from "@mui/icons-material/QrCode2";
 interface CameraScannerDialogProps {
   onBarCodeSave: (newBarCode: string) => void;
 }
@@ -47,7 +46,7 @@ const CameraScannerDialog = (props: CameraScannerDialogProps) => {
     <React.Fragment>
       <Button
         size="small"
-        startIcon={<CameraAltIcon />}
+        startIcon={<QrCode2Icon />}
         onClick={handleClickOpen}
       >
         {t("scan.label")}

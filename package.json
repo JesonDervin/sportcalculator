@@ -16,6 +16,7 @@
     "@emotion/styled": "latest",
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
+    "axios": "^0.27.2",
     "luxon": "^2.4.0",
     "next": "latest",
     "next-i18next": "^11.0.0",
