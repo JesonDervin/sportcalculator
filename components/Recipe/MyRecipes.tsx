@@ -10,40 +10,39 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import AddIcon from "@mui/icons-material/Add";
 import Recipe from "../../src/Models/Recipe";
-import LocalStorageKeys from "../../src/Models/LocalStorageKeys";
-import { useLocalStorage } from "usehooks-ts";
 import MyRecipesListItem from "./MyRecipesListItem";
+import { useRecoilValue } from "recoil";
+import { recipesMealState } from "../../src/State/Recipes";
 
 const MyRecipes = () => {
   const { t } = useTranslation();
   const router = useRouter();
 
-  const [storedRecipes] = useLocalStorage<Recipe[]>(
-    LocalStorageKeys.Recipes,
-    []
-  );
-  const currentRecipes = React.useRef([] as Recipe[]);
+  const storedRecipes = useRecoilValue(recipesMealState);
+  const [currentRecipes, setCurrentRecipes] = React.useState([] as Recipe[]);
   React.useEffect(() => {
-    currentRecipes.current = [...storedRecipes];
+    setCurrentRecipes(storedRecipes);
   }, [storedRecipes]);
-  function handleAddRecipe() {
+
+  const handleAddRecipe = () => {
     router.push("/AddRecipe", "/Recipes");
-  }
-  function handleEdit(id: string) {
+  };
+  const handleEdit = (id: string) => {
     router.push("/Recipe/[recipeId]", `/Recipe/${id}`);
-  }
+  };
+
   return (
     <div>
       <h1>{t("recipe.my")}</h1>
       <List dense={true}>
-        {currentRecipes.current.map((recipe: Recipe, index: number) => (
+        {currentRecipes.map((recipe: Recipe, index: number) => (
           <MyRecipesListItem
             recipe={recipe}
             onEdit={() => handleEdit(recipe.id)}
             key={index}
           />
         ))}
-        {currentRecipes.current.length == 0 && (
+        {currentRecipes.length == 0 && (
           <ListItem key="norecipe" component="li">
             <ListItemText>{t("recipe.empty")}</ListItemText>
           </ListItem>

@@ -1,3 +1,4 @@
+import { number } from "prop-types";
 import Food from "./Food";
 
 export default class Recipe {
@@ -13,28 +14,31 @@ export default class Recipe {
     );
   }
 
-  proteinPerQuantity(quantity = 100) {
+  proteinPerQuantity(quantity = 100): number {
     const totalProtein = this.foods.reduce(
       (previous: number, current: Food) => previous + Number(current.protein),
       0
     );
-    return (totalProtein / this.totalQuantity) * quantity;
+    const value = (totalProtein / this.totalQuantity) * quantity;
+    return Number(value.toFixed(2));
   }
 
-  carbohydratePerQuantity(quantity = 100) {
+  carbohydratePerQuantity(quantity = 100): number {
     const totalCarbohydrate = this.foods.reduce(
       (previous: number, current: Food) =>
         previous + Number(current.carbohydrate),
       0
     );
-    return (totalCarbohydrate / this.totalQuantity) * quantity;
+    const value = (totalCarbohydrate / this.totalQuantity) * quantity;
+    return Number(value.toFixed(2));
   }
 
-  lipidPerQuantity(quantity = 100) {
+  lipidPerQuantity(quantity = 100): number {
     const totalLipid = this.foods.reduce(
       (previous: number, current: Food) => previous + Number(current.lipid),
       0
     );
-    return (totalLipid / this.totalQuantity) * quantity;
+    const value = (totalLipid / this.totalQuantity) * quantity;
+    return Number(value.toFixed(2));
   }
 }
