@@ -20,10 +20,9 @@ import Recipe from "../../src/Models/Recipe";
 import CameraScannerDialog from "../Camera/CameraScannerDialog";
 import OpenFoodFactService from "../../src/Services/OpenFoodFactService";
 import { useRecoilValue } from "recoil";
-import { recipesMealState } from "../../src/State/Recipes";
-import { getFoodsForAutocomplete } from "../../src/Services/CiqualService";
-import AutocompleteFood from "../../src/Models/AutocompleteFood";
+import AvalaibleIngredient from "../../src/Models/AutocompleteFood";
 import FoodHelper from "../../src/Helpers/FoodHelper";
+import { avalaibleIngredientsState } from "../../src/State/Food/AvalaibleIngredientsState";
 
 interface FoodDialogProps {
   onAddFood: (newFood: Food) => void;
@@ -33,15 +32,15 @@ export default function FoodDialog(props: FoodDialogProps) {
   const { onAddFood } = props;
   const { t, i18n } = useTranslation();
   const [open, setOpen] = React.useState(false);
-  const autocompleteFoods = getFoodsForAutocomplete(i18n.language);
-  const storedRecipes = useRecoilValue(recipesMealState);
+  const avalaibleIngredientsStored = useRecoilValue(avalaibleIngredientsState(i18n.language));
+  const [avalaibleIngredients, setAvalaibleIngredients] = React.useState([] as AvalaibleIngredient[]);
+  const [currentAvalaibleIngredient, setCurrentAvalaibleIngredient] = React.useState<AvalaibleIngredient>();
   const [currentIngredient, setCurrentIngredient] = React.useState<Food>(
     new Food()
   );
   React.useEffect(() => {
-    const convertRecipesToAutocomplete = storedRecipes.map(r => new AutocompleteFood(r.id, r.name, r.proteinPerQuantity(), r.carbohydratePerQuantity(), r.lipidPerQuantity()));
-    autocompleteFoods.concat(convertRecipesToAutocomplete);
-  }, [storedRecipes, autocompleteFoods])
+    setAvalaibleIngredients(avalaibleIngredientsStored);
+  }, [avalaibleIngredientsStored])
 
   const handleClickOpen = () => {
     reset();
@@ -83,9 +82,12 @@ export default function FoodDialog(props: FoodDialogProps) {
       ...currentIngredient,
       quantity: newQuantity,
     } as Food;
-    newFood.protein = FoodHelper.calculatePer100gram(currentIngredient.protein, newQuantity);
-    newFood.carbohydrate = FoodHelper.calculatePer100gram(currentIngredient.carbohydrate, newQuantity);
-    newFood.lipid = FoodHelper.calculatePer100gram(currentIngredient.lipid, newQuantity);
+    if (currentAvalaibleIngredient) {
+      newFood.protein = FoodHelper.calculatePer100gram(currentAvalaibleIngredient.proteinPer100g, newQuantity);
+      newFood.carbohydrate = FoodHelper.calculatePer100gram(currentAvalaibleIngredient.carbohydratePer100g, newQuantity);
+      newFood.lipid = FoodHelper.calculatePer100gram(currentAvalaibleIngredient.lipidPer100g, newQuantity);
+
+    }
     setCurrentIngredient(newFood);
   };
 
@@ -98,10 +100,9 @@ export default function FoodDialog(props: FoodDialogProps) {
   ) => {
     let foodToSet = new Food();
     if (value !== null && typeof value === "string") {
-      console.log("value ", value)
-      const stored = autocompleteFoods.find((food) => food.id === value);
-      console.log("stored ", stored)
+      const stored = avalaibleIngredients.find((food) => food.id === value);
       if (stored) {
+        setCurrentAvalaibleIngredient(stored);
         foodToSet = new Food(
           stored.name,
           stored.proteinPer100g,
@@ -109,13 +110,13 @@ export default function FoodDialog(props: FoodDialogProps) {
           stored.lipidPer100g
         );
       } else {
+        setCurrentAvalaibleIngredient(undefined);
         foodToSet = {
           ...currentIngredient,
           name: value,
         } as Food;
       }
     }
-    console.log("foodToSet", foodToSet);
     setCurrentIngredient(foodToSet);
   };
 
@@ -152,8 +153,10 @@ export default function FoodDialog(props: FoodDialogProps) {
                     onInputChange={update}
                     freeSolo={true}
                     disablePortal
-                    options={autocompleteFoods}
+                    options={avalaibleIngredientsStored}
                     inputValue={currentIngredient.name}
+                    getOptionLabel={(option) => option.id}
+                    filterOptions={(options, state) => options.filter(o => o.name.toLocaleLowerCase().includes(state.inputValue.toLocaleLowerCase()))}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -167,7 +170,6 @@ export default function FoodDialog(props: FoodDialogProps) {
                         })}
                       />
                     )}
-                    getOptionLabel={(option) => option.id}
                     renderOption={(props, option) => (
                       <Box component="li" {...props}>
                         {option.name}

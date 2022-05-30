@@ -8,7 +8,6 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-  Card,
 } from "@mui/material";
 import FoodHelper from "../../src/Helpers/FoodHelper";
 import FoodsTableProps from "../../src/Models/FoodsTableProps";
