@@ -1,4 +1,3 @@
-import { number } from "prop-types";
 import Food from "./Food";
 
 export default class Recipe {
@@ -6,7 +5,7 @@ export default class Recipe {
     public name: string = "",
     public id: string = "",
     public foods: Food[] = []
-  ) {}
+  ) { }
   get totalQuantity() {
     return this.foods.reduce(
       (previous: number, current: Food) => previous + Number(current.quantity),

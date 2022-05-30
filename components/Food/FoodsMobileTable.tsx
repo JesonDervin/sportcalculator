@@ -15,6 +15,7 @@ import { useTranslation } from "next-i18next";
 import Food from "../../src/Models/Food";
 import { Delete } from "@mui/icons-material";
 import AddIngredientDialog from "./AddIngredientDialog";
+import { Box } from "@mui/system";
 
 const FoodsMobileTable = (props: FoodsTableProps) => {
   const { foods, deleteFood, onAddFood } = props;
@@ -28,6 +29,7 @@ const FoodsMobileTable = (props: FoodsTableProps) => {
 
   return (
     <Grid container spacing={2} direction="column" alignItems="center">
+      {currentFoods.length == 0 && <Box component="span">{t("ingredient.empty")}</Box>}
       {currentFoods.map((food: Food, index: number) => (
         <Grid item key={food.name}>
           <TableContainer component={Paper}>

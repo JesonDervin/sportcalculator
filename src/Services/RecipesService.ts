@@ -7,7 +7,8 @@ export const getLocalStorageRecipes = (): Recipe[] => {
   if (recipes) {
     result = JSON.parse(recipes);
   }
-  return result;
+  // ! have to remap in order to access of methods from Recipe class
+  return result.map(r => new Recipe(r.name, r.id, r.foods));
 };
 
 export const setLocalStorageRecipes = (newRecipes: Recipe[]) => {
