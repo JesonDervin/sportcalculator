@@ -11,7 +11,8 @@
     "label": "ingrédient",
     "add": "Ajouter un Ingrédient",
     "name": "nom",
-    "details": "valeurs nutritionnel"
+    "details": "valeurs nutritionnel",
+    "empty": "pas d'ingredients"
   },
   "recipe": {
     "my": "mes recettes",

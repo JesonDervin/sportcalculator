@@ -5,6 +5,7 @@ import RecipeLayout from "../../components/Layout/RecipeLayout";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import RecipeForm from "../../components/Recipe/RecipeForm";
+import { Box } from "@mui/system";
 
 const EditRecipe = () => {
   const { t } = useTranslation();
@@ -14,10 +15,18 @@ const EditRecipe = () => {
   const recipeId = recipeIdQuery as string;
   return (
     <RecipeLayout>
-      <h1>{t("recipe.edit")}</h1>
-      <div>
-        <RecipeForm recipeToEditId={recipeId} />
-      </div>
+      <Box sx={{
+        my: 4,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}>
+        <h1>{t("recipe.edit")}</h1>
+        <div>
+          <RecipeForm recipeToEditId={recipeId} />
+        </div>
+      </Box>
     </RecipeLayout>
   );
 };

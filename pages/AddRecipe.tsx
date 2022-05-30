@@ -3,14 +3,23 @@ import RecipeForm from "../components/Recipe/RecipeForm";
 import React from "react";
 import { useTranslation } from "next-i18next";
 import RecipeLayout from "../components/Layout/RecipeLayout";
+import { Box } from "@mui/system";
 
 const AddRecipe = () => {
   const { t } = useTranslation();
 
   return (
     <RecipeLayout>
-      <h1>{t("recipe.add")}</h1>
-      <RecipeForm />
+      <Box sx={{
+        my: 4,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}>
+        <h1>{t("recipe.add")}</h1>
+        <RecipeForm />
+      </Box>
     </RecipeLayout>
   );
 };

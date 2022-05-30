@@ -20,22 +20,34 @@ import Recipe from "../../src/Models/Recipe";
 import CameraScannerDialog from "../Camera/CameraScannerDialog";
 import OpenFoodFactService from "../../src/Services/OpenFoodFactService";
 import { useRecoilValue } from "recoil";
-import { recipesMealState } from "../../src/State/Recipes";
+import AvalaibleIngredient from "../../src/Models/AutocompleteFood";
+import FoodHelper from "../../src/Helpers/FoodHelper";
+import { avalaibleIngredientsState } from "../../src/State/Food/AvalaibleIngredientsState";
 
 interface FoodDialogProps {
   onAddFood: (newFood: Food) => void;
 }
 
 export default function FoodDialog(props: FoodDialogProps) {
-  const storedRecipes = useRecoilValue(recipesMealState);
   const { onAddFood } = props;
+  const { t, i18n } = useTranslation();
   const [open, setOpen] = React.useState(false);
-  const [recipe, setRecipe] = React.useState<Recipe | null>(null);
+  const avalaibleIngredientsStored = useRecoilValue(avalaibleIngredientsState(i18n.language));
+  const [avalaibleIngredients, setAvalaibleIngredients] = React.useState([] as AvalaibleIngredient[]);
+  const [currentAvalaibleIngredient, setCurrentAvalaibleIngredient] = React.useState<AvalaibleIngredient>();
+  const [currentIngredient, setCurrentIngredient] = React.useState<Food>(
+    new Food()
+  );
+  React.useEffect(() => {
+    setAvalaibleIngredients(avalaibleIngredientsStored);
+  }, [avalaibleIngredientsStored])
+
   const handleClickOpen = () => {
     reset();
     setCurrentIngredient(new Food());
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -47,9 +59,7 @@ export default function FoodDialog(props: FoodDialogProps) {
     formState: { errors },
   } = useForm<Food>({ criteriaMode: "all" });
 
-  const [currentIngredient, setCurrentIngredient] = React.useState<Food>(
-    new Food()
-  );
+
   const saveIngredient: SubmitHandler<Food> = () => {
     handleClose();
     onAddFood(currentIngredient);
@@ -72,43 +82,39 @@ export default function FoodDialog(props: FoodDialogProps) {
       ...currentIngredient,
       quantity: newQuantity,
     } as Food;
-    if (recipe !== null) {
-      newFood.protein = recipe.proteinPerQuantity(newQuantity);
-      newFood.carbohydrate = recipe.carbohydratePerQuantity(newQuantity);
-      newFood.lipid = recipe.lipidPerQuantity(newQuantity);
+    if (currentAvalaibleIngredient) {
+      newFood.protein = FoodHelper.calculatePer100gram(currentAvalaibleIngredient.proteinPer100g, newQuantity);
+      newFood.carbohydrate = FoodHelper.calculatePer100gram(currentAvalaibleIngredient.carbohydratePer100g, newQuantity);
+      newFood.lipid = FoodHelper.calculatePer100gram(currentAvalaibleIngredient.lipidPer100g, newQuantity);
+
     }
     setCurrentIngredient(newFood);
   };
 
   const numberConstraints = { required: true, onChange: handleFood, min: 0 };
 
-  const { t } = useTranslation();
 
   const update = (
     event: React.SyntheticEvent<Element, Event>,
     value: Recipe | string | null
   ) => {
     let foodToSet = new Food();
-    setRecipe(null);
-    if (value !== null) {
-      if (typeof value === "string") {
-        const stored = storedRecipes.find((recipe) => recipe.id === value);
-        if (stored) {
-          // * have to do this to trigger getters, were undefined otherwise
-          const recipe = new Recipe(stored.name, stored.id, stored.foods);
-          setRecipe(recipe);
-          foodToSet = new Food(
-            recipe.name,
-            recipe.proteinPerQuantity(),
-            recipe.carbohydratePerQuantity(),
-            recipe.lipidPerQuantity()
-          );
-        } else {
-          foodToSet = {
-            ...currentIngredient,
-            name: value,
-          } as Food;
-        }
+    if (value !== null && typeof value === "string") {
+      const stored = avalaibleIngredients.find((food) => food.id === value);
+      if (stored) {
+        setCurrentAvalaibleIngredient(stored);
+        foodToSet = new Food(
+          stored.name,
+          stored.proteinPer100g,
+          stored.carbohydratePer100g,
+          stored.lipidPer100g
+        );
+      } else {
+        setCurrentAvalaibleIngredient(undefined);
+        foodToSet = {
+          ...currentIngredient,
+          name: value,
+        } as Food;
       }
     }
     setCurrentIngredient(foodToSet);
@@ -135,7 +141,7 @@ export default function FoodDialog(props: FoodDialogProps) {
       </IconButton>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-          {t("ingredient.add")}{" "}
+          {t("ingredient.add")}
           <CameraScannerDialog onBarCodeSave={handleBarCodeSave} />
         </DialogTitle>
         <div>
@@ -147,8 +153,10 @@ export default function FoodDialog(props: FoodDialogProps) {
                     onInputChange={update}
                     freeSolo={true}
                     disablePortal
-                    options={storedRecipes}
+                    options={avalaibleIngredientsStored}
                     inputValue={currentIngredient.name}
+                    getOptionLabel={(option) => option.id}
+                    filterOptions={(options, state) => options.filter(o => o.name.toLocaleLowerCase().includes(state.inputValue.toLocaleLowerCase()))}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -162,7 +170,6 @@ export default function FoodDialog(props: FoodDialogProps) {
                         })}
                       />
                     )}
-                    getOptionLabel={(option) => option.id}
                     renderOption={(props, option) => (
                       <Box component="li" {...props}>
                         {option.name}
