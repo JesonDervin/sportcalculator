@@ -11,7 +11,8 @@
     "label": "ingredient",
     "add": "Add Ingredient",
     "name": "name",
-    "details": "nutritional details"
+    "details": "nutritional details",
+    "empty": "no ingredients"
   },
   "recipe": {
     "my": "my recipes",

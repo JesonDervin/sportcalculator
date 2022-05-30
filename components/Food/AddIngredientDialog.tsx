@@ -140,7 +140,7 @@ export default function FoodDialog(props: FoodDialogProps) {
       </IconButton>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-          {t("ingredient.add")}{" "}
+          {t("ingredient.add")}
           <CameraScannerDialog onBarCodeSave={handleBarCodeSave} />
         </DialogTitle>
         <div>

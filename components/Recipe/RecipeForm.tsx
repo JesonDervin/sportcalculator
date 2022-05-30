@@ -89,8 +89,8 @@ const RecipeForm = (props: RecipeFormProps) => {
     <form
       onSubmit={isEdit ? handleSubmit(editRecipe) : handleSubmit(saveRecipe)}
     >
-      <Grid container spacing={2} justifyContent="center" alignItems="center">
-        <Grid item xs={12}>
+      <Grid container spacing={2} direction="column" justifyContent="center" alignItems="center">
+        <Grid item >
           <TextField
             error={errors.name ? true : false}
             helperText={errors.name ? t("errors.required") : ""}
@@ -102,9 +102,6 @@ const RecipeForm = (props: RecipeFormProps) => {
               onChange: handleNameChange,
             })}
           />
-        </Grid>
-        <Grid item>
-          <h2>{t("ingredient.label")}</h2>
         </Grid>
         <Grid item>
           <Box sx={{ display: { xs: "none", md: "block" } }}>
