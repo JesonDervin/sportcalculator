@@ -1,3 +1,4 @@
+---
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
   - name : Working terminal
@@ -11,3 +12,16 @@ tasks:
 ports:
   - port: 3000
     onOpen: open-preview
+
+vscode:
+  extensions:
+    - dbaeumer.vscode-eslint
+    - dcasella.monokai-plusplus
+    - eamodio.gitlens
+    - esbenp.prettier-vscode
+    - formulahendry.auto-close-tag
+    - formulahendry.auto-complete-tag
+    - formulahendry.auto-rename-tag
+    - kamikillerto.vscode-colorize
+    - rangav.vscode-thunder-client
+    - aaron-bond.better-comments
