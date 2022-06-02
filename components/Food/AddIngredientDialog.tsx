@@ -23,7 +23,8 @@ import { useRecoilValue } from "recoil";
 import AvalaibleIngredient from "../../src/Models/AutocompleteFood";
 import FoodHelper from "../../src/Helpers/FoodHelper";
 import { avalaibleIngredientsState } from "../../src/State/Food/AvalaibleIngredientsState";
-
+import { ToastContainer, toast } from "material-react-toastify";
+import 'material-react-toastify/dist/ReactToastify.min.css';
 interface FoodDialogProps {
   onAddFood: (newFood: Food) => void;
 }
@@ -122,10 +123,23 @@ export default function FoodDialog(props: FoodDialogProps) {
 
   const openFoodFactService = new OpenFoodFactService();
   const handleBarCodeSave = async (newBarCode: string) => {
-    const retrievedFood = await openFoodFactService.getFoodInformation(
-      newBarCode
-    );
-    setCurrentIngredient(retrievedFood);
+    try {
+      const retrievedFood = await openFoodFactService.getFoodInformation(
+        newBarCode
+      );
+      setCurrentAvalaibleIngredient(new AvalaibleIngredient("", retrievedFood.name, retrievedFood.protein, retrievedFood.carbohydrate, retrievedFood.lipid))
+      setCurrentIngredient(retrievedFood);
+    } catch (error: unknown) {
+      toast.error(t('errors.foodNotFound'), {
+        position: "bottom-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+      })
+    }
   };
 
   return (
@@ -269,6 +283,7 @@ export default function FoodDialog(props: FoodDialogProps) {
               {t("actions.confirm")}
             </Button>
           </DialogActions>
+          <ToastContainer />
         </div>
       </Dialog>
     </div>
