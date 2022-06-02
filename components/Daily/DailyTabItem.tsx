@@ -24,7 +24,9 @@ export default function DailyTabItem(props: DailyTabItemProps) {
   };
 
   const handleAdd = (newFood: Food) => {
-    const newFoods = [...storedFood, newFood];
+    console.log(newFood)
+    const fixedFood = new Food(newFood.name, Number(newFood.protein.toFixed(2)), Number(newFood.carbohydrate.toFixed(2)), Number(newFood.lipid.toFixed(2)), Number(newFood.quantity.toFixed(2)))
+    const newFoods = [...storedFood, fixedFood];
     setStoredFoods(newFoods);
   };
 
