@@ -71,14 +71,14 @@ export default function FoodDialog(props: FoodDialogProps) {
   ): void => {
     setCurrentIngredient({
       ...currentIngredient,
-      [e.currentTarget.name]: e.currentTarget.value,
+      [e.currentTarget.name]: Number(e.currentTarget.value),
     } as Food);
   };
 
   const handleQuantity = (
     e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void => {
-    const newQuantity = +e.currentTarget.value;
+    const newQuantity = + Math.round(Number(e.currentTarget.value));
     const newFood = {
       ...currentIngredient,
       quantity: newQuantity,

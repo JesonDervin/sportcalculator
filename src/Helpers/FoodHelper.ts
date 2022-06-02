@@ -1,6 +1,6 @@
 export default class FoodHelper {
     static calculateCalories(protein: number, carbohydrate: number, lipid: number): number {
-        return protein * 4 + carbohydrate * 4 + lipid * 9;
+        return Number((protein * 4 + carbohydrate * 4 + lipid * 9).toFixed(2));
     }
 
     // * Calculate a value(prot,carbs,fat) per 100 grams

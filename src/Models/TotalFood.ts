@@ -8,32 +8,38 @@ export default class TotalFood {
   }
 
   public get quantity(): number {
-    return this.allFoods.reduce(
+    const sum = this.allFoods.reduce(
       (previous: number, current: Food) => previous + Number(current.quantity),
       0
     );
+    return Number(sum.toFixed(2));
   }
 
   public get protein(): number {
-    return this.allFoods.reduce(
+    const sum = this.allFoods.reduce(
       (previous: number, current: Food) => previous + Number(current.protein),
       0
     );
+    return Number(sum.toFixed(2));
   }
 
   public get carbohydrate(): number {
-    return this.allFoods.reduce(
+    const sum = this.allFoods.reduce(
       (previous: number, current: Food) =>
         previous + Number(current.carbohydrate),
       0
     );
+    return Number(sum.toFixed(2));
+
   }
 
   public get lipid(): number {
-    return this.allFoods.reduce(
+    const sum = this.allFoods.reduce(
       (previous: number, current: Food) => previous + Number(current.lipid),
       0
     );
+    return Number(sum.toFixed(2));
+
   }
 
   public get calories(): number {
