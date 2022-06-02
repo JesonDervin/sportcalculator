@@ -21,7 +21,6 @@ const CameraScannerDialog = (props: CameraScannerDialogProps) => {
   const { onBarCodeSave } = props;
   const [open, setOpen] = React.useState(false);
   const [barCode, setBarCode] = React.useState("");
-
   const handleBarCodeDetected = (newBarCode: string) => {
     // setOpen(false);
     setBarCode(newBarCode);
@@ -75,7 +74,7 @@ const CameraScannerDialog = (props: CameraScannerDialogProps) => {
             </Typography>
             {barCode !== "" && (
               <Button autoFocus color="inherit" onClick={handleSave}>
-                save
+                {t("actions.save")}
               </Button>
             )}
           </Toolbar>

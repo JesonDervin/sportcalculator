@@ -36,11 +36,13 @@
     "confirm": "confirmer",
     "add": "ajouter",
     "edit": "modifier",
-    "delete": "supprimer"
+    "delete": "supprimer",
+    "save": "sauvegarder"
   },
   "errors": {
     "invalid": "invalide",
-    "required": "requis"
+    "required": "requis",
+    "foodNotFound": "Aliment non trouvé"
   },
   "menu": {
     "daily": "daily",

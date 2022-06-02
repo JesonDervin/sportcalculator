@@ -13,6 +13,11 @@ export default class OpenFoodFactService {
       barCode
     );
     const { data } = await axios.get(url);
+    console.assert(data.code === "")
+    // * openFoodFact Api answer with empty code if food do not exists
+    if (data.code === "") {
+      throw "unknown food";
+    }
     const responseData = data as OpenFoodFactApiResponse;
     const convertedFood = this.mapFoodApiToFood(responseData);
     return convertedFood;
