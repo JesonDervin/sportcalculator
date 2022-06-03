@@ -27,14 +27,17 @@ const CameraScannerDialog = (props: CameraScannerDialogProps) => {
   };
 
   const handleClickOpen = () => {
+    setBarCode("");
     setOpen(true);
   };
 
   const handleClose = () => {
+    setBarCode("");
     setOpen(false);
   };
 
   const handleSave = () => {
+    setBarCode("");
     setOpen(false);
     onBarCodeSave(barCode);
   };

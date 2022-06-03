@@ -125,7 +125,7 @@ export default function FoodDialog(props: FoodDialogProps) {
   const handleBarCodeSave = async (newBarCode: string) => {
     try {
       const retrievedFood = await openFoodFactService.getFoodInformation(
-        newBarCode
+        newBarCode, i18n.language
       );
       setCurrentAvalaibleIngredient(new AvalaibleIngredient("", retrievedFood.name, retrievedFood.protein, retrievedFood.carbohydrate, retrievedFood.lipid))
       setCurrentIngredient(retrievedFood);
