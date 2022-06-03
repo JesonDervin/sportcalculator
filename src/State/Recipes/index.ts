@@ -26,30 +26,32 @@ export const recipeStateById = selectorFamily<Recipe | undefined, string>({
   key: "recipeStateById",
   get:
     (id: string) =>
-    ({ get }) => {
-      const recipes = get(recipesMealState);
-      const recipeById = recipes.filter((f) => f.id === id)[0];
-      return recipeById ?? new Recipe("", uuidv4());
-    },
+      ({ get }) => {
+        const recipes = get(recipesMealState);
+        const recipeById = recipes.filter((f) => f.id === id)[0];
+        return recipeById ?? new Recipe("", uuidv4());
+      },
   set:
     (id: string) =>
-    ({ get, set }, newValue) => {
-      const newRecipe = newValue as Recipe;
-      const storedRecipes = [...get(recipesMealState)];
-      const newRecipeIndex = storedRecipes.findIndex((r) => r.id === id);
-      if (newValue) {
-        if (newRecipeIndex > -1) {
-          storedRecipes[newRecipeIndex] = new Recipe(
+      ({ get, set }, newValue) => {
+        const newRecipe = newValue as Recipe;
+        const storedRecipes = [...get(recipesMealState)];
+        const newRecipeIndex = storedRecipes.findIndex((r) => r.id === id);
+        if (newValue) {
+          // ! have to remap in order to access of methods from Recipe class
+          const newValueMapped = new Recipe(
             newRecipe.name,
             newRecipe.id,
             newRecipe.foods
           );
+          if (newRecipeIndex > -1) {
+            storedRecipes[newRecipeIndex] = newValueMapped
+          } else {
+            storedRecipes.push(newValueMapped);
+          }
         } else {
-          storedRecipes.push(newRecipe);
+          storedRecipes.splice(newRecipeIndex, 1);
         }
-      } else {
-        storedRecipes.splice(newRecipeIndex, 1);
-      }
-      set(recipesMealState, storedRecipes);
-    },
+        set(recipesMealState, storedRecipes);
+      },
 });
