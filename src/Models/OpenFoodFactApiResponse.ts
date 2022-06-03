@@ -3,7 +3,7 @@ export interface OpenFoodFactApiResponse {
   product: OpenFoodFactApiProduct;
 }
 export interface OpenFoodFactApiProduct {
-  generic_name: string;
+  product_name: string;
   nutriments: OpenFoodFactApiNutriments;
 }
 export interface OpenFoodFactApiNutriments {
