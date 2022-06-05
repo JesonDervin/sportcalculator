@@ -6,6 +6,7 @@ export default class AvalaibleIngredient {
         public proteinPer100g: number,
         public carbohydratePer100g: number,
         public lipidPer100g: number,
+        public isRecipe: boolean = false,
 
     ) { }
 }

@@ -92,7 +92,10 @@ export default function FoodDialog(props: FoodDialogProps) {
     setCurrentIngredient(newFood);
   };
 
+  // * form constraints for number
   const numberConstraints = { required: true, onChange: handleFood, min: 0 };
+  // * form constraints for ingredient name
+  const nameConstraints = { required: true, minLength: 2 };
 
 
   const update = (
@@ -153,7 +156,7 @@ export default function FoodDialog(props: FoodDialogProps) {
       >
         <AddIcon />
       </IconButton>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} scroll={"paper"}>
         <DialogTitle>
           {t("ingredient.add")}
           <CameraScannerDialog onBarCodeSave={handleBarCodeSave} />
@@ -161,27 +164,36 @@ export default function FoodDialog(props: FoodDialogProps) {
         <div>
           <DialogContent>
             <Grid container direction="column">
-              <Grid container spacing={2}>
-                <Grid item xs>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={6}>
                   <Autocomplete
                     onInputChange={update}
                     freeSolo={true}
                     disablePortal
                     options={avalaibleIngredientsStored}
+                    groupBy={(option) => option.isRecipe ? t("recipe.my") : t("other")}
                     inputValue={currentIngredient.name}
                     getOptionLabel={(option) => option.id}
-                    filterOptions={(options, state) => options.filter(o => o.name.toLocaleLowerCase().includes(state.inputValue.toLocaleLowerCase()))}
+                    filterOptions={(options, state) => options.filter(o => {
+                      // * filter what is on popup
+                      // * render only what is contained in query, max 5
+                      // * minimal query length is 2
+                      if (state.inputValue.length < 2) {
+                        return false;
+                      } else {
+                        return o.name.toLocaleLowerCase().includes(state.inputValue.toLocaleLowerCase());
+                      }
+                    }).splice(0, 5)
+                    }
                     renderInput={(params) => (
                       <TextField
                         {...params}
                         variant="outlined"
                         error={errors.name ? true : false}
-                        helperText={errors.name ? t("errors.required") : ""}
+                        helperText={errors.name ? t("errors.invalid") : ""}
                         label={t("ingredient.name")}
                         value={currentIngredient.name}
-                        {...register("name", {
-                          required: true,
-                        })}
+                        {...register("name", nameConstraints)}
                       />
                     )}
                     renderOption={(props, option) => (
@@ -191,8 +203,9 @@ export default function FoodDialog(props: FoodDialogProps) {
                     )}
                   />
                 </Grid>
-                <Grid item xs>
+                <Grid item xs={12} md={6}>
                   <TextField
+                    fullWidth
                     error={errors.quantity ? true : false}
                     helperText={errors.quantity ? t("errors.invalid") : ""}
                     label={t("quantity")}
