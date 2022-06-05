@@ -7,6 +7,7 @@ const CameraBarCodeScanner = (props: CameraBarCodeScannerProps) => {
   const { OnBarcodeDetected } = props;
 
   React.useEffect(() => {
+
     if (
       navigator.mediaDevices &&
       typeof navigator.mediaDevices.getUserMedia === "function"

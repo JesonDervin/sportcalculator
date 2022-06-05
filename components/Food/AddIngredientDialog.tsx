@@ -39,8 +39,15 @@ export default function FoodDialog(props: FoodDialogProps) {
   const [currentIngredient, setCurrentIngredient] = React.useState<Food>(
     new Food()
   );
+  const [hasCamera, setHasCamera] = React.useState(false);
   React.useEffect(() => {
     setAvalaibleIngredients(avalaibleIngredientsStored);
+    navigator.mediaDevices.getUserMedia({
+      video: true
+    })
+      .then(() => setHasCamera(true))
+      .catch(() => setHasCamera(false));
+
   }, [avalaibleIngredientsStored])
 
   const handleClickOpen = () => {
@@ -159,7 +166,7 @@ export default function FoodDialog(props: FoodDialogProps) {
       <Dialog open={open} onClose={handleClose} scroll={"paper"}>
         <DialogTitle>
           {t("ingredient.add")}
-          <CameraScannerDialog onBarCodeSave={handleBarCodeSave} />
+          {hasCamera && <CameraScannerDialog onBarCodeSave={handleBarCodeSave} />}
         </DialogTitle>
         <div>
           <DialogContent>
