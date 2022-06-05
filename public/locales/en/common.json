@@ -15,6 +15,7 @@
     "empty": "no ingredients"
   },
   "recipe": {
+    "label": "recipe",
     "my": "my recipes",
     "add": "add recipe",
     "name": "recipe name",
@@ -31,6 +32,7 @@
   "lipid": "lipid",
   "calories": "calories",
   "caloriesShort": "cal",
+  "other": "other",
   "actions": {
     "cancel": "cancel",
     "confirm": "confirm",
