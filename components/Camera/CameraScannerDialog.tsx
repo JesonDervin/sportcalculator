@@ -7,9 +7,8 @@ import {
   IconButton,
   Slide,
   Toolbar,
-  Typography,
 } from "@mui/material";
-import CameraBarCodeScanner from "./CameraBarCodeScanner";
+import CameraBarCodeScanner from "./NewCameraBarCodeScanner";
 import { useTranslation } from "next-i18next";
 import { TransitionProps } from "@mui/material/transitions";
 import QrCode2Icon from "@mui/icons-material/QrCode2";
@@ -20,28 +19,18 @@ interface CameraScannerDialogProps {
 const CameraScannerDialog = (props: CameraScannerDialogProps) => {
   const { onBarCodeSave } = props;
   const [open, setOpen] = React.useState(false);
-  const [barCode, setBarCode] = React.useState("");
   const handleBarCodeDetected = (newBarCode: string) => {
-    // setOpen(false);
-    setBarCode(newBarCode);
+    onBarCodeSave(newBarCode);
+    setOpen(false);
   };
 
   const handleClickOpen = () => {
-    setBarCode("");
     setOpen(true);
   };
 
   const handleClose = () => {
-    setBarCode("");
     setOpen(false);
   };
-
-  const handleSave = () => {
-    setBarCode("");
-    setOpen(false);
-    onBarCodeSave(barCode);
-  };
-
   const { t } = useTranslation();
 
   return (
@@ -70,16 +59,6 @@ const CameraScannerDialog = (props: CameraScannerDialogProps) => {
             >
               <CloseIcon />
             </IconButton>
-            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              {barCode !== ""
-                ? `${t("scan.barcode")}: ${barCode}`
-                : t("scan.nobarcode")}
-            </Typography>
-            {barCode !== "" && (
-              <Button autoFocus color="inherit" onClick={handleSave}>
-                {t("actions.save")}
-              </Button>
-            )}
           </Toolbar>
         </AppBar>
 

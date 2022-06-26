@@ -39,8 +39,15 @@ export default function FoodDialog(props: FoodDialogProps) {
   const [currentIngredient, setCurrentIngredient] = React.useState<Food>(
     new Food()
   );
+  const [hasCamera, setHasCamera] = React.useState(false);
   React.useEffect(() => {
     setAvalaibleIngredients(avalaibleIngredientsStored);
+    navigator.mediaDevices.getUserMedia({
+      video: true
+    })
+      .then(() => setHasCamera(true))
+      .catch(() => setHasCamera(false));
+
   }, [avalaibleIngredientsStored])
 
   const handleClickOpen = () => {
@@ -58,6 +65,7 @@ export default function FoodDialog(props: FoodDialogProps) {
     handleSubmit,
     reset,
     formState: { errors },
+    setValue
   } = useForm<Food>({ criteriaMode: "all" });
 
 
@@ -132,6 +140,7 @@ export default function FoodDialog(props: FoodDialogProps) {
       );
       setCurrentAvalaibleIngredient(new AvalaibleIngredient("", retrievedFood.name, retrievedFood.protein, retrievedFood.carbohydrate, retrievedFood.lipid))
       setCurrentIngredient(retrievedFood);
+      setValue("name", retrievedFood.name);
     } catch (error: unknown) {
       toast.error(t('errors.foodNotFound'), {
         position: "bottom-center",
@@ -159,7 +168,7 @@ export default function FoodDialog(props: FoodDialogProps) {
       <Dialog open={open} onClose={handleClose} scroll={"paper"}>
         <DialogTitle>
           {t("ingredient.add")}
-          <CameraScannerDialog onBarCodeSave={handleBarCodeSave} />
+          {hasCamera && <CameraScannerDialog onBarCodeSave={handleBarCodeSave} />}
         </DialogTitle>
         <div>
           <DialogContent>

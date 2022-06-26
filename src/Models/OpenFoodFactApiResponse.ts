@@ -4,6 +4,12 @@ export interface OpenFoodFactApiResponse {
 }
 export interface OpenFoodFactApiProduct {
   product_name: string;
+  product_name_en: string;
+  product_name_fr: string;
+  generic_name: string;
+  generic_name_en: string;
+  generic_name_fr: string;
+
   nutriments: OpenFoodFactApiNutriments;
 }
 export interface OpenFoodFactApiNutriments {

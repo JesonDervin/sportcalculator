@@ -47,9 +47,9 @@
     "foodNotFound": "Aliment non trouvé"
   },
   "menu": {
-    "daily": "daily",
+    "daily": "journalier",
     "recipes": "recettes",
-    "followUp": "follow-up"
+    "followUp": "suivi"
   },
   "unit": {
     "gram": "grammes",

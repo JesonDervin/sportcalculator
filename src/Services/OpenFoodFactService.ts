@@ -1,6 +1,6 @@
 import axios from "axios";
 import Food from "../Models/Food";
-import { OpenFoodFactApiResponse } from "../Models/OpenFoodFactApiResponse";
+import { OpenFoodFactApiProduct, OpenFoodFactApiResponse } from "../Models/OpenFoodFactApiResponse";
 
 export default class OpenFoodFactService {
   private OpenFoodFactBaseUrl = "https://[locale].openfoodfacts.org";
@@ -22,19 +22,46 @@ export default class OpenFoodFactService {
       throw "unknown food";
     }
     const responseData = data as OpenFoodFactApiResponse;
-    const convertedFood = this.mapFoodApiToFood(responseData);
+    const convertedFood = this.mapFoodApiToFood(responseData, locale, barCode);
     return convertedFood;
   }
 
   // Todo: maybe move this part to a mapper
-  public mapFoodApiToFood(apiFood: OpenFoodFactApiResponse): Food {
+  public mapFoodApiToFood(apiFood: OpenFoodFactApiResponse, locale: string, barCode: string): Food {
     const product = apiFood.product;
     const nutriments = product.nutriments;
+    const foodName = this.getFoodName(apiFood, locale, barCode);
     return new Food(
-      product.product_name,
+      foodName,
       nutriments.proteins_100g,
       nutriments.carbohydrates_100g,
       nutriments.fat_100g
     );
+  }
+
+  // *  get name from api, if not found, return barcode
+  public getFoodName(apiFood: OpenFoodFactApiResponse, locale: string, barCode: string): string {
+    let name = "";
+    const genericTranslatedName = `generic_name_${locale}` as keyof OpenFoodFactApiProduct;
+    name = apiFood.product[genericTranslatedName] as string;
+
+    if (this.nameIsNullOrWhiteSpace(name)) {
+      name = apiFood.product.generic_name;
+      if (this.nameIsNullOrWhiteSpace(name)) {
+        const productTranslatedName = `product_name_${locale}` as keyof OpenFoodFactApiProduct;
+        name = apiFood.product[productTranslatedName] as string;
+        if (this.nameIsNullOrWhiteSpace(name)) {
+          name = apiFood.product.product_name as string;
+          if (this.nameIsNullOrWhiteSpace(name)) {
+            name = barCode;
+          }
+        }
+      }
+    }
+    return name;
+  }
+
+  public nameIsNullOrWhiteSpace(name: string): boolean {
+    return name == null || name.trim() === '';
   }
 }

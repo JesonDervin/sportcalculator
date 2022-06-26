@@ -15,7 +15,6 @@ ports:
 
 vscode:
   extensions:
-    - dbaeumer.vscode-eslint
     - dcasella.monokai-plusplus
     - eamodio.gitlens
     - esbenp.prettier-vscode
