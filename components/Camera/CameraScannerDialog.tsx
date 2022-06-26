@@ -7,7 +7,6 @@ import {
   IconButton,
   Slide,
   Toolbar,
-  Typography,
 } from "@mui/material";
 import CameraBarCodeScanner from "./NewCameraBarCodeScanner";
 import { useTranslation } from "next-i18next";
