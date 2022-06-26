@@ -65,6 +65,7 @@ export default function FoodDialog(props: FoodDialogProps) {
     handleSubmit,
     reset,
     formState: { errors },
+    setValue
   } = useForm<Food>({ criteriaMode: "all" });
 
 
@@ -139,6 +140,7 @@ export default function FoodDialog(props: FoodDialogProps) {
       );
       setCurrentAvalaibleIngredient(new AvalaibleIngredient("", retrievedFood.name, retrievedFood.protein, retrievedFood.carbohydrate, retrievedFood.lipid))
       setCurrentIngredient(retrievedFood);
+      setValue("name", retrievedFood.name);
     } catch (error: unknown) {
       toast.error(t('errors.foodNotFound'), {
         position: "bottom-center",
