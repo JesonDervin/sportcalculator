@@ -22,7 +22,6 @@ export default class OpenFoodFactService {
       throw "unknown food";
     }
     const responseData = data as OpenFoodFactApiResponse;
-    console.log("resp", responseData);
     const convertedFood = this.mapFoodApiToFood(responseData, locale, barCode);
     return convertedFood;
   }
@@ -42,23 +41,15 @@ export default class OpenFoodFactService {
 
   // *  get name from api, if not found, return barcode
   public getFoodName(apiFood: OpenFoodFactApiResponse, locale: string, barCode: string): string {
-    console.log("getFoodName", apiFood)
     let name = "";
     const genericTranslatedName = `generic_name_${locale}` as keyof OpenFoodFactApiProduct;
-    console.group()
-    console.log("genericTranslatedName", genericTranslatedName);
     name = apiFood.product[genericTranslatedName] as string;
-    console.log("name", name);
-    console.groupEnd()
+
     if (this.nameIsNullOrWhiteSpace(name)) {
       name = apiFood.product.generic_name;
       if (this.nameIsNullOrWhiteSpace(name)) {
-        console.group()
         const productTranslatedName = `product_name_${locale}` as keyof OpenFoodFactApiProduct;
-        console.log("productTranslatedName", productTranslatedName);
         name = apiFood.product[productTranslatedName] as string;
-        console.log("name", name);
-        console.groupEnd()
         if (this.nameIsNullOrWhiteSpace(name)) {
           name = apiFood.product.product_name as string;
           if (this.nameIsNullOrWhiteSpace(name)) {

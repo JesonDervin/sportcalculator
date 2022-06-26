@@ -9,27 +9,21 @@ interface CameraBarCodeScannerProps {
 const NewCameraBarCodeScanner = (props: CameraBarCodeScannerProps) => {
     const { OnBarcodeDetected } = props;
 
-
     const config = { fps: 10, qrbox: { width: 250, height: 250 } } as Html5QrcodeCameraScanConfig;
     React.useEffect(() => {
-        const html5QrCode = new Html5Qrcode("reader");
-        Html5Qrcode.getCameras().then(devices => {
-            if (devices && devices.length) {
-                const barCodeSuccessCallback: QrcodeSuccessCallback = (decodedText, decodedResult) => {
-                    // todo exploit decodedResult to filter format
-                    OnBarcodeDetected(decodedText);
-                };
+        let html5QrCode = new Html5Qrcode("reader");
+        const barCodeSuccessCallback: QrcodeSuccessCallback = (decodedText, decodedResult) => {
+            // todo exploit decodedResult to filter format
+            OnBarcodeDetected(decodedText);
+        };
 
-                const barCodeErrorCallback: QrcodeErrorCallback = (errorMessage: string, error: Html5QrcodeError) => {
-                    // todo: show error
-                }
-                // prefer back camera
-                html5QrCode.start({ facingMode: "environment" }, config, barCodeSuccessCallback, barCodeErrorCallback);
-            }
-        });
-
-        return () => { html5QrCode.stop().then(() => { console.log("stopped") }) };
+        const barCodeErrorCallback: QrcodeErrorCallback = (errorMessage: string, error: Html5QrcodeError) => {
+            // todo: show error
+        }
+        // prefer back camera
+        html5QrCode.start({ facingMode: "environment" }, config, barCodeSuccessCallback, barCodeErrorCallback);
     });
+
 
     return (<div id="reader"></div>)
 };
