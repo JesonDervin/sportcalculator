@@ -4,7 +4,11 @@ import {
   AppBar,
   Button,
   Dialog,
+  FormControl,
   IconButton,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   Slide,
   Toolbar,
 } from "@mui/material";
@@ -19,6 +23,21 @@ interface CameraScannerDialogProps {
 const CameraScannerDialog = (props: CameraScannerDialogProps) => {
   const { onBarCodeSave } = props;
   const [open, setOpen] = React.useState(false);
+  const [selectedDeviceId, setSelectedDeviceId] = React.useState("");
+  const [cameraDevices, setCameraDevices] = React.useState([] as MediaDeviceInfo[]);
+  React.useEffect(() => {
+    const getCameraDevices = async () => {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const cameraDevices = devices.filter(s => s.kind === "videoinput")
+      setCameraDevices(cameraDevices);
+      setSelectedDeviceId(cameraDevices[0].deviceId)
+    }
+    getCameraDevices().catch(console.error);
+  }, []);
+  const handleSelectChange = (event: SelectChangeEvent) => {
+    setSelectedDeviceId(event.target.value);
+  };
+
   const handleBarCodeDetected = (newBarCode: string) => {
     onBarCodeSave(newBarCode);
     setOpen(false);
@@ -59,10 +78,23 @@ const CameraScannerDialog = (props: CameraScannerDialogProps) => {
             >
               <CloseIcon />
             </IconButton>
+            {/* todo: have a better color */}
+            <FormControl variant="standard" color="error">
+              <Select
+                value={selectedDeviceId}
+                onChange={handleSelectChange}
+              >
+                {cameraDevices.map((device: MediaDeviceInfo) => (
+                  <MenuItem key={device.deviceId} value={device.deviceId}>
+                    {device.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Toolbar>
         </AppBar>
 
-        <CameraBarCodeScanner OnBarcodeDetected={handleBarCodeDetected} />
+        <CameraBarCodeScanner OnBarcodeDetected={handleBarCodeDetected} cameraDeviceId={selectedDeviceId} />
       </Dialog>
     </React.Fragment>
   );

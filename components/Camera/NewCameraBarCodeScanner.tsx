@@ -4,24 +4,31 @@ import { QrcodeErrorCallback, QrcodeSuccessCallback } from "html5-qrcode/esm/cor
 import { Html5QrcodeCameraScanConfig } from "html5-qrcode/esm/html5-qrcode";
 interface CameraBarCodeScannerProps {
     OnBarcodeDetected: (barcode: string) => void;
+    cameraDeviceId: string
 }
 
 const NewCameraBarCodeScanner = (props: CameraBarCodeScannerProps) => {
-    const { OnBarcodeDetected } = props;
+    const { OnBarcodeDetected, cameraDeviceId } = props;
 
     const config = { fps: 10, qrbox: { width: 250, height: 250 } } as Html5QrcodeCameraScanConfig;
     React.useEffect(() => {
         const html5QrCode = new Html5Qrcode("reader");
         const barCodeSuccessCallback: QrcodeSuccessCallback = (decodedText) => {
-            // todo exploit decodedResult to filter format
-            OnBarcodeDetected(decodedText);
+            html5QrCode.stop().then((ignore) => {
+                // QR Code scanning is stopped.
+                // todo exploit decodedResult to filter format
+                OnBarcodeDetected(decodedText);
+            }).catch((err) => {
+                // Stop failed, handle it.
+                console.error(err);
+            });
         };
 
         const barCodeErrorCallback: QrcodeErrorCallback = () => {
             // todo: show error
         }
         // prefer back camera
-        html5QrCode.start({ facingMode: "environment" }, config, barCodeSuccessCallback, barCodeErrorCallback);
+        html5QrCode.start(cameraDeviceId, config, barCodeSuccessCallback, barCodeErrorCallback);
     });
 
 
