@@ -1,10 +1,10 @@
 ---
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
-  - name : Working terminal
-    command: echo "Working terminal"
+  - name : Working terminal Front
+    command: echo "Working terminal front"
   - name: Npm Init for nextjs-blog
-    init: npm install # runs during prebuild
+    init: cd front && npm install # runs during prebuild
     command: npm run dev
     openMode: split-right
 
