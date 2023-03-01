@@ -7,11 +7,17 @@ tasks:
     init: cd front && npm install # runs during prebuild
     command: npm run dev
     openMode: split-right
+  - name: Working terminal Back
+    init: cd back && cargo build # runs during prebuild
+    command: echo "Working terminal back"
+    openMode: tab-after
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
   - port: 3000
     onOpen: open-preview
+  - port: 3001
+    onOpen: notify
 
 vscode:
   extensions:
@@ -24,3 +30,7 @@ vscode:
     - kamikillerto.vscode-colorize
     - rangav.vscode-thunder-client
     - aaron-bond.better-comments
+    - rust-lang.rust-analyzer
+    - usernamehw.errorlens
+    - belfz.search-crates-io
+    - bungcip.better-toml
