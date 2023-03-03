@@ -1,18 +1,15 @@
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
-use pickledb::PickleDb;
-use std::path::Path;
 
-static DB_PATH: &str = "db/sports.db";
+use models::food::Food;
+use repository::PickleDbRepository;
+
+pub mod models;
+pub mod repository;
 
 #[get("/")]
 async fn hello() -> impl Responder {
-    // todo having a repository that manage that
-    let db = PickleDb::load(
-        DB_PATH,
-        pickledb::PickleDbDumpPolicy::AutoDump,
-        pickledb::SerializationMethod::Json,
-    )
-    .unwrap();
+    let repository = PickleDbRepository {};
+    let db = repository.get_or_create_database();
 
     let response = db.get::<String>("echo").unwrap();
     HttpResponse::Ok().body(response)
@@ -20,13 +17,9 @@ async fn hello() -> impl Responder {
 
 #[post("/echo")]
 async fn echo(req_body: String) -> impl Responder {
-    // todo having a repository that manage that
-    let mut db = PickleDb::load(
-        DB_PATH,
-        pickledb::PickleDbDumpPolicy::AutoDump,
-        pickledb::SerializationMethod::Json,
-    )
-    .unwrap();
+    let repository = PickleDbRepository {};
+
+    let mut db = repository.get_or_create_database();
 
     db.set("echo", &req_body.clone()).unwrap();
 
@@ -34,22 +27,19 @@ async fn echo(req_body: String) -> impl Responder {
 }
 
 async fn manual_hello() -> impl Responder {
-    HttpResponse::Ok().body("Hey there!")
+    let food = Food {
+        name: "testFood".to_owned(),
+        protein: 50.1,
+        carbohydrate: 40.0,
+        lipid: 30.0,
+        quantity: 10,
+    };
+
+    HttpResponse::Ok().json(food)
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    // Setting up DB
-    let file_exists: bool = Path::new(DB_PATH).exists();
-
-    if !file_exists {
-        PickleDb::new(
-            DB_PATH,
-            pickledb::PickleDbDumpPolicy::AutoDump,
-            pickledb::SerializationMethod::Json,
-        );
-    }
-
     // Http server starting
     HttpServer::new(|| {
         App::new()
