@@ -34,3 +34,4 @@ vscode:
     - usernamehw.errorlens
     - belfz.search-crates-io
     - bungcip.better-toml
+    - vadimcn.vscode-lldb

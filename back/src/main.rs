@@ -1,6 +1,12 @@
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 
 use models::food::Food;
+use repository::PickleDbRepository;
+
+pub mod models;
+pub mod repository;
+
+use models::food::Food;
 use repository::{get_database, init_database};
 use services::ingredients::search;
 
@@ -45,7 +51,15 @@ async fn ciqual(req_body: String) -> impl Responder {
 }
 
 async fn manual_hello() -> impl Responder {
-    HttpResponse::Ok().body("Hey there!")
+    let food = Food {
+        name: "testFood".to_owned(),
+        protein: 50.1,
+        carbohydrate: 40.0,
+        lipid: 30.0,
+        quantity: 10,
+    };
+
+    HttpResponse::Ok().json(food)
 }
 
 #[actix_web::main]
