@@ -1,0 +1,29 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "Api Test Calls",
+    "dateExported": "2023-03-20T07:35:50.254Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "35fb8d32-224a-4138-8618-1bb2ec14625f",
+            "colId": "5071da17-03cd-4def-91f2-b348ab2b931e",
+            "containerId": "",
+            "name": "Search miel",
+            "url": "http://localhost:3001/ingredients/search?query=miel",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-03-20T07:32:15.742Z",
+            "modified": "2023-03-20T07:32:15.742Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "query",
+                    "value": "miel",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        }
+    ]
+}
