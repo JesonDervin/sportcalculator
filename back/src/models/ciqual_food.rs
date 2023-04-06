@@ -17,6 +17,7 @@ pub struct CiqualFood {
     pub lipides_100g: f32,
 }
 
+/*all handle_null_* are for deserialization case when a value is not provided in json */
 fn handle_null_float<'de, D>(d: D) -> Result<f32, D::Error>
 where
     D: Deserializer<'de>,

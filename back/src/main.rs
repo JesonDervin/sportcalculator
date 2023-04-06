@@ -1,16 +1,15 @@
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 
-use models::food::Food;
-use repository::PickleDbRepository;
-
-pub mod models;
-pub mod repository;
-
-use models::food::Food;
-use repository::{get_database, init_database};
+use models::{ciqual_food::CiqualFood, food::Food, user::User};
+use passwords::hasher;
+use repository::core::init_database;
 use services::ingredients::search;
+use uuid::Uuid;
 
-use crate::{models::ciqual_food::CiqualFood, repository::DbKeys};
+use crate::repository::{
+    core::{get_database, DbKeys},
+    users::{get_user_list, set_user_list},
+};
 
 pub mod models;
 pub mod repository;
@@ -50,6 +49,26 @@ async fn ciqual(req_body: String) -> impl Responder {
     HttpResponse::Ok().body(req_body)
 }
 
+#[post("/user")]
+async fn add_user(req_body: String) -> impl Responder {
+    let request_user: User = serde_json::from_str(&req_body).unwrap();
+    let salt = hasher::gen_salt();
+    let raw_password = request_user.password;
+    let password = hasher::bcrypt_format(10, &salt, &raw_password).unwrap();
+    let mut user_list: Vec<User> = get_user_list();
+    let uuid = Uuid::new_v4();
+    let new_user: User = User {
+        salt: Some(salt),
+        login: "admin".to_owned(),
+        password,
+        // ! panic if size > u32.max value....but if happend we rich !
+        id: Some(uuid),
+    };
+    user_list.push(new_user);
+    set_user_list(user_list.to_vec());
+    HttpResponse::Ok().json(user_list)
+}
+
 async fn manual_hello() -> impl Responder {
     let food = Food {
         name: "testFood".to_owned(),
@@ -73,6 +92,7 @@ async fn main() -> std::io::Result<()> {
             .service(hello)
             .service(echo)
             .service(ciqual)
+            .service(add_user)
             .service(web::scope("/ingredients").service(search))
             .route("/hey", web::get().to(manual_hello))
     })

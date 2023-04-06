@@ -1,20 +1,20 @@
 {
     "client": "Thunder Client",
     "collectionName": "Api Test Calls",
-    "dateExported": "2023-03-20T07:35:50.254Z",
+    "dateExported": "2023-04-18T07:10:00.698Z",
     "version": "1.1",
     "folders": [],
     "requests": [
         {
-            "_id": "35fb8d32-224a-4138-8618-1bb2ec14625f",
-            "colId": "5071da17-03cd-4def-91f2-b348ab2b931e",
+            "_id": "8196c743-ab45-4435-b770-0b629c12d5ab",
+            "colId": "aa59489e-a17f-4db1-a28e-0594f5facf71",
             "containerId": "",
             "name": "Search miel",
             "url": "http://localhost:3001/ingredients/search?query=miel",
             "method": "GET",
             "sortNum": 10000,
-            "created": "2023-03-20T07:32:15.742Z",
-            "modified": "2023-03-20T07:32:15.742Z",
+            "created": "2023-04-18T06:21:44.864Z",
+            "modified": "2023-04-18T06:21:44.864Z",
             "headers": [],
             "params": [
                 {
@@ -23,6 +23,25 @@
                     "isPath": false
                 }
             ],
+            "tests": []
+        },
+        {
+            "_id": "83b0c4de-6e39-414a-a7ad-eb416c267c8e",
+            "colId": "aa59489e-a17f-4db1-a28e-0594f5facf71",
+            "containerId": "",
+            "name": "http://localhost:3001/user",
+            "url": "http://localhost:3001/user",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2023-04-18T07:09:45.744Z",
+            "modified": "2023-04-18T07:09:45.744Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"login\": \"admin\",\n  \"password\": \"Ishoe!\"\n}",
+                "form": []
+            },
             "tests": []
         }
     ]

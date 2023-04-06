@@ -1,7 +1,7 @@
 use actix_web::{get, web, Responder, Result};
 use serde::Deserialize;
 
-use crate::repository::get_ingredients;
+use crate::repository::ingredients::get_ingredients;
 
 #[derive(Deserialize)]
 pub struct SearchQuery {
